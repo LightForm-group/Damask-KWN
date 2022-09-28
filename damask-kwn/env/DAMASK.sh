@@ -1,0 +1,85 @@
+# sets up an environment for DAMASK on bash
+# usage:  source DAMASK.sh
+
+function canonicalPath {
+  python3 -c "import os,sys; print(os.path.normpath(os.path.realpath(os.path.expanduser(sys.argv[1]))))" $1
+}
+
+function blink {
+  echo -e "\033[2;5m$1\033[0m"
+}
+
+if [ "$OSTYPE" == "linux-gnu" ] || [ "$OSTYPE" == 'linux' ]; then
+  ENV_ROOT=$(dirname $BASH_SOURCE)
+else
+  [[ "${BASH_SOURCE::1}" == "/" ]] && BASE="" || BASE="$(pwd)/"
+  STAT=$(stat "$(dirname $BASE$BASH_SOURCE)")
+  ENV_ROOT=${STAT##* }
+fi
+
+DAMASK_ROOT=$(canonicalPath "$ENV_ROOT/../")
+
+# shorthand command to change to DAMASK_ROOT directory
+eval "function DAMASK_root() { cd $DAMASK_ROOT; }"
+
+# add BRANCH if DAMASK_ROOT is a git repository
+cd $DAMASK_ROOT >/dev/null; BRANCH=$(git branch 2>/dev/null| grep -E '^\* '); cd - >/dev/null
+
+PATH=${DAMASK_ROOT}/bin:$PATH
+
+SOLVER=$(type -p DAMASK_grid || true 2>/dev/null)
+[ "x$SOLVER" == "x" ] && SOLVER=$(blink 'Not found!')
+
+
+# currently, there is no information that unlimited stack size causes problems
+# still, http://software.intel.com/en-us/forums/topic/501500 suggest to fix it
+# more info https://jblevins.org/log/segfault
+#           https://stackoverflow.com/questions/79923/what-and-where-are-the-stack-and-heap
+#           http://superuser.com/questions/220059/what-parameters-has-ulimit
+ulimit -s unlimited 2>/dev/null # maximum stack size (kB)
+
+# disable output in case of scp
+if [ ! -z "$PS1" ]; then
+  echo
+  echo Düsseldorf Advanced Materials Simulation Kit --- DAMASK
+  echo Max-Planck-Institut für Eisenforschung GmbH, Düsseldorf
+  echo https://damask.mpie.de
+  echo
+  echo Using environment with ...
+  echo "DAMASK             $DAMASK_ROOT $BRANCH"
+  echo "Grid Solver        $SOLVER"
+  if [ "x$PETSC_DIR"   != "x" ]; then
+    echo -n "PETSc location     "
+    [ -d $PETSC_DIR ] && echo $PETSC_DIR || blink $PETSC_DIR
+    [[ $(canonicalPath "$PETSC_DIR") == $PETSC_DIR ]] \
+    || echo "               ~~> "$(canonicalPath "$PETSC_DIR")
+  fi
+  [ "x$PETSC_ARCH" != "x" ] && echo "PETSc architecture $PETSC_ARCH"
+  [ "x$OMP_NUM_THREADS" == "x" ] && export OMP_NUM_THREADS=4
+  echo "Multithreading     OMP_NUM_THREADS=$OMP_NUM_THREADS"
+  echo -n "heap  size         "
+   [[ "$(ulimit -d)" == "unlimited" ]] \
+   && echo "unlimited" \
+   || echo $(python -c \
+          "import math; \
+           size=$(( 1024*$(ulimit -d) )); \
+           print('{:.4g} {}'.format(size / (1 << ((int(math.log(size,2) / 10) if size else 0) * 10)), \
+           ['bytes','KiB','MiB','GiB','TiB','EiB','ZiB'][int(math.log(size,2) / 10) if size else 0]))")
+  echo -n "stack size         "
+   [[ "$(ulimit -s)" == "unlimited" ]] \
+   && echo "unlimited" \
+   || echo $(python -c \
+          "import math; \
+           size=$(( 1024*$(ulimit -s) )); \
+           print('{:.4g} {}'.format(size / (1 << ((int(math.log(size,2) / 10) if size else 0) * 10)), \
+           ['bytes','KiB','MiB','GiB','TiB','EiB','ZiB'][int(math.log(size,2) / 10) if size else 0]))")
+  echo
+fi
+
+export DAMASK_ROOT
+export PYTHONPATH=$DAMASK_ROOT/python:$PYTHONPATH
+
+for var in BASE STAT SOLVER BRANCH; do
+  unset "${var}"
+done
+unset "ENV_ROOT"

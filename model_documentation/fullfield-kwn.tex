@@ -1,0 +1,301 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[usenames,dvipsnames,pdftex]{xcolor}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{bm}
+\usepackage[load-configurations=version-1]{siunitx}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{graphicx}
+
+\newcommand{\question}[1]{\textcolor{Red}{#1}}
+\newcommand{\answer}[1]{\textcolor{Green}{#1}}
+\newcommand{\note}[1]{\textcolor{CornflowerBlue}{#1}}
+
+% REFERENCES
+
+\newcommand{\eref}[1]{Eq.~\eqref{#1}}
+\newcommand{\Eref}[1]{Equation~\eqref{#1}}
+\newcommand{\fref}[1]{Fig.~\ref{#1}}
+\newcommand{\Fref}[1]{Figure~\ref{#1}}
+\newcommand{\tref}[1]{Tab.~\ref{#1}}
+\newcommand{\Tref}[1]{Table~\ref{#1}}
+\newcommand{\sref}[1]{section~\ref{#1}}
+\newcommand{\Sref}[1]{Section~\ref{#1}}
+
+
+% ABBREVIATIONS
+
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\cf}{\textit{cf.}}
+
+
+% NAMES 
+
+\newcommand{\Euler}{\textsc{Euler}}
+\newcommand{\Gauss}{\textsc{Gauss}}
+\newcommand{\Kroener}{\textsc{Kr\"oner}}
+\newcommand{\Nye}{\textsc{Nye}}
+\newcommand{\Burgers}{\textsc{Burgers}}
+\newcommand{\PK}{\textsc{Piola-Kirchhoff}}
+
+% PHYSICAL CONSTANTS
+
+\newcommand{\kB}{\ensuremath{k_\text{B}}}
+
+
+% TENSORS 
+
+\newcommand{\field}[1]{\ensuremath{\mathcal{#1}}}
+\newcommand{\tnsr}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\vctr}[1]{\ensuremath{\bm{#1}}}
+
+
+% SPECIAL TENSORS
+
+\newcommand{\identity}{\ensuremath{\tnsr I}}
+\newcommand{\levi}{\ensuremath{\epsilon}}
+
+
+% FUNCTIONS 
+
+\newcommand{\abs}[1]{\ensuremath{\left|{#1}\right|}}
+\newcommand{\positive}[1]{\ensuremath{\left\lceil{#1}\right\rceil}}
+\newcommand{\negative}[1]{\ensuremath{\left\lfloor{#1}\right\rfloor}}
+\newcommand{\norm}[1]{\ensuremath{\left|\left|{#1}\right|\right|}}
+\newcommand{\transpose}[1]{\ensuremath{{#1}^{\mathrm T}}}
+\newcommand{\inverse}[1]{\ensuremath{{#1}^{-1}}}
+\newcommand{\invtranspose}[1]{\ensuremath{{#1}^{\mathrm{-T}}}}
+\newcommand{\inc}[1]{\ensuremath{\text d\,{#1}}}
+\newcommand{\sign}[1]{\ensuremath{\operatorname{sign}{#1}}}
+\newcommand{\signb}[1]{\ensuremath{\operatorname{sign}\left({#1}\right)}}
+\newcommand{\grad}[2][]{\ensuremath{\operatorname{grad}_{#1}{#2}}}
+\newcommand{\gradb}[2][]{\ensuremath{\operatorname{grad}_{#1}\left({#2}\right)}}
+\newcommand{\divergence}[1][]{\ensuremath{\operatorname{div}{#1}}}
+\newcommand{\divergenceb}[1]{\ensuremath{\operatorname{div}\left({#1}\right)}}
+\newcommand{\curl}[1][]{\ensuremath{\operatorname{curl}{#1}}}
+\newcommand{\curlb}[1]{\ensuremath{\operatorname{curl}\left({#1}\right)}}
+\newcommand{\expb}[1]{\ensuremath{\exp{\left({#1}\right)}}}
+\newcommand{\totalder}[2]{\ensuremath{\frac{\inc{#1}}{\inc{#2}}}}
+\newcommand{\partialder}[2]{\ensuremath{\frac{\partial{#1}}{\partial{#2}}}}
+\newcommand{\partialderb}[2]{\ensuremath{\partial_{#2}\left({#1}\right)}}
+\newcommand{\timeder}[1]{\ensuremath{\partial_{t}{#1}}}
+\newcommand{\volumeaverage}[1]{\ensuremath{\left\langle{#1}\right\rangle}_V}
+\newcommand{\areaaverage}[1]{\ensuremath{\left\langle{#1}\right\rangle}_A}
+\newcommand{\lineaverage}[1]{\ensuremath{\left\langle{#1}\right\rangle}_L}
+
+% VARIABLES
+
+\newcommand{\F}{\ensuremath{\tnsr F}}
+\newcommand{\Fp}[1][]{\ensuremath{\tnsr F_\text{p#1}}}
+\newcommand{\Fpo}[1][]{\ensuremath{\tnsr F_\text{p#10}}}
+\newcommand{\Fpinv}[1][]{\ensuremath{\inverse{\tnsr F_\text{p#1}}}}
+\newcommand{\Fpdot}[1][]{\ensuremath{\dot{\tnsr F}_\text{p#1}}}
+\newcommand{\Fe}{\ensuremath{\tnsr F_\text{e}}}
+\newcommand{\Lp}[1][]{\ensuremath{\tnsr L_\text{p#1}}}
+\newcommand{\Lpo}[1][]{\ensuremath{\tnsr L_\text{p#10}}}
+\newcommand{\E}{\ensuremath{\tnsr E}}
+\newcommand{\GL}{\ensuremath{\tnsr E_\text{e}}}
+\newcommand{\cauchy}[2]{\ensuremath{\sigma^{#1}_{#2}}}
+\newcommand{\fPK}{\ensuremath{\tnsr P}}
+\newcommand{\sPK}{\ensuremath{\tnsr S}}
+\newcommand{\sPKcomponent}[1]{\ensuremath{S_{#1}}}
+
+\newcommand{\dfedf}{\totalder{\Fe}{\F}}
+\newcommand{\dsdf}{\totalder{\sPK}{\F}}
+\newcommand{\dsdfe}{\totalder{\sPK}{\Fe}}
+\newcommand{\dpdf}{\totalder{\fPK}{\F}}
+\newcommand{\dlpdf}{\totalder{\Lp}{\F}}
+\newcommand{\dlpds}{\totalder{\Lp}{\sPK}}
+\newcommand{\explp}{\exp\left[-\alpha \Delta t\Lp\right]}
+\newcommand{\explpo}{\exp\left[-\frac{\left(1-\alpha \right)\Delta t\Lpo}{2}\right]}
+\newcommand{\dfpinvdf}{\totalder{\Fpinv}{\F}}
+\newcommand{\dfpinvdt}{\totalder{\Fpinv}{\text{t}}}
+\newcommand{\dfpinvdlp}{\totalder{\Fpinv}{\Lp}}
+
+\begin{document}
+
+\title{Full-field Kampmann-Wagner Models}
+\maketitle
+
+%\date{}                                           % Activate to display a given date or no date
+
+\section{Kampmann-Wagner Model}
+
+A number density distribution of precipitates, $\phi\left(r,t\right)$, is defined. 
+The total number density of precipitates, $N$, is given by
+%
+\begin{equation}
+\label{eq: totaldensity}
+N\left(t\right) = \int_{0}^{\infty} \phi\left(r,t\right) \inc{r},
+\end{equation}
+%
+the average radius, $R$, is given by
+%
+\begin{equation}
+\label{eq: avgradius}
+R\left(t\right) = \frac{1}{N\left(t\right)}\int_{0}^{\infty} r \phi\left(r,t\right) \inc{r},
+\end{equation}
+%
+and the volume fraction, $f$, is given by
+%
+\begin{equation}
+\label{eq: volfrac}
+f\left(t\right) =\int_{0}^{\infty} \frac{4}{3} \pi r^3 \phi\left(r,t\right) \inc{r}.
+\end{equation}
+%
+The conservation of precipitates is then represented by the following conservation law
+%
+\begin{equation}
+\label{eq: conservation}
+\partialder{\phi}{t}+ \partialder{\left[v \phi\right]}{r} = S
+\end{equation}
+%
+where, $v\left(r,t\right)$ is the growth rate of the precipitates, and $S\left(r,t\right)$ is the source term representing the nucleation of precipitates.
+Using classical nucleation theory, the source term can be expressed as
+%
+\begin{equation}
+\label{eq: source}
+S = \delta\left(r - r_c\right) I
+\end{equation}
+%
+where $r_c\left(t\right)$ is the critical nucleus size, and $I\left(t\right)$ is the nucleation rate.
+The critical nucleus size is given by
+%
+\begin{equation}
+\label{eq: critradius}
+r_c\left(t\right) = - \frac{2\gamma}{\Delta G_E + \Delta G_V},
+\end{equation}
+%
+and the nucleation rate is given by
+%
+\begin{equation}
+\label{eq: nucleation}
+I\left(t\right) = N_s Z \beta \exp{\left[-\frac{4\pi\gamma r_c^2}{3\kB T}\right]} \exp{\left[-\frac{\tau}{t}\right]}.
+\end{equation}
+%
+The elastic misfit energy, $\Delta G_E$, is assumed to be constant. The chemical energy change, $\Delta G_V$, is given by
+%
+\begin{equation}
+\label{eq: chemenergy}
+\Delta G_V = \frac{R T}{V} c_\text{P} \ln{\frac{c_\text{M}}{c_\text{eq}}}
+\end{equation}
+%
+where, the precipitate solute concentration, $c_\text{P}$, is assumed to be constant, $c_\text{M}\left(t\right)$ is the matrix solute concentration satisfying
+%
+\begin{equation}
+\label{eq: soluteconservation}
+c_\text{M}\left(t = 0\right) = f c_\text{P} + \left(1 - f\right)c_\text{M}\left(t\right),
+\end{equation}
+%
+and $c_\text{eq}$ is the equilibrium matrix composition.
+In \eref{eq: nucleation}, the Zeldovich factor, $Z$, is given by
+%
+\begin{equation}
+\label{eq: soluteconservation}
+Z = \frac{V}{2\pi r_c^2} \sqrt{\frac{\gamma}{\kB T}},
+\end{equation}
+%
+$\beta$ is given by
+%
+\begin{equation}
+\label{eq: beta}
+\beta = 4\pi D_\text{M} c_\text{M} \frac{r_c^2}{a^4},  
+\end{equation}
+%
+in terms if the solute diffusion coefficient, $D_\text{M}$, and the incubation time, $\tau$, is given by
+%
+\begin{equation}
+\label{eq: incubation}
+\tau = \frac{1}{2 Z^2 \beta}.
+\end{equation}
+%
+Finally, the growth rate, $v\left(r,t\right)$ in \eref{eq: conservation} is given by
+%
+\begin{equation}
+\label{eq: growth}
+v\left(r,t\right) = \frac{D}{r} \frac{c_\text{M} - c_\text{I}}{c_\text{P} - c_\text{I}}, \qquad c_\text{I} = c_\text{eq} \exp{\frac{2\pi\gamma}{R T r}}.
+\end{equation}
+%
+
+\section{Crystal Plasticity}
+
+A crystal plasticity constitutive model is a representation of the plastic strain rate (velocity gradient)
+%
+\begin{equation}
+\label{eq: lp}
+\Lp = \sum_{\alpha = 1}^{N} \dot{\gamma}^{\alpha} n^{\alpha} \otimes s^{\alpha} 
+\end{equation}
+%
+in terms of the slip rates, $\dot{\gamma}^{\alpha}$, on slip system $\alpha$ defined by slip plane normal, $n^{\alpha}$, and slip direction $s^{\alpha}$.
+The slip rates are given by a power law,
+%
+\begin{equation}
+\label{eq: sliprate}
+\dot{\gamma}^{\alpha} = \dot{\gamma}_0^{\alpha} \left(\frac{\tau^{\alpha}}{\tau_r^{\alpha} + \tau_p^{\alpha}}\right)^{1/m}
+\end{equation}
+%
+where $\tau^{\alpha}$ is the resolved shear stress on the slip system, and the strain-hardening contribution to slip resistance, $\tau_r^{\alpha}$, is given by
+%
+\begin{equation}
+\label{eq: strainhardening}
+\dot{\tau}_r^{\alpha} = h_0 \sum_{\beta = 1}^{N} h_{\alpha\beta}\dot{\gamma}^{\beta}\left[1 - \frac{\tau_r^{\beta}}{\tau_{\infty}^{\beta}}\right],
+\end{equation}
+%
+and the precipitate-hardening contribution to slip resistance, $\tau_p^{\alpha}$, is given by
+%
+\begin{equation}
+\label{eq: precipitatehardening}
+\tau_p^{\alpha} = \frac{1}{b L^{\alpha}} \int_{0}^{\infty} \phi\left(r,t\right) F\left(r,t\right) \inc{r},
+\end{equation}
+%
+which accounts for precipitate shearing, with $F\left(r,t\right) = k G b r$ for $r < b/k$, and Orowan looping, with $F\left(r,t\right) = G b^2$.  for $r > b/k$. $L^{\alpha}$ is the average particle spacing on the dislocation line, and is obtained from Friedel's statistics as
+%
+\begin{equation}
+\label{eq: friedel}
+L^{\alpha} = \left[\frac{4 \pi R^2 G b^2}{3 f b \tau_p^{\alpha}} \right]^{\frac{1}{3}},
+\end{equation}
+%
+where $R$ and $f$ are given by \eref{eq: avgradius} and \eref{eq: volfrac} respectively.
+
+Furthermore, vacancy generation due to plastic deformation is considered. The rate of generation and annihilation of vacancies is given by
+%
+\begin{equation}
+\label{eq: vacancyrate}
+\dot{c}_\text{V} = \chi \frac{\Omega}{E_\text{V}} \sum_{\alpha = 1}^{N} \dot{\gamma}^{\alpha} \tau^{\alpha} - \frac{D_\text{V}}{L^2} c_\text{V},
+\end{equation} 
+%
+where, $\chi$ is the fraction of plastic work converted into vacncies, $\Omega$ is the atomic volume, $E_\text{V}$, is the vacancy formation energy, and $D_\text{V} = D_\text{V0} \exp\left[-\frac{M_\text{V}}{\kB T}\right]$, is the vacancy diffusion coefficient in terms of the vacancy migration energy, $M_\text{V}$. 
+$L$ is the average spacing between vacancy sinks, and is given by the minimum of dislocation spacing and interstitial ($c_{int}$ assumed to be constant) spacing
+%
+\begin{equation}
+\label{eq: vacancysink}
+L = \min\left[\frac{G b}{\tau_r^{\alpha} - \tau_{r0}^{\alpha}}, \frac{1}{\sqrt[3]{c_{int}}}\right].
+\end{equation} 
+%
+
+Currently, the solute diffusion coefficient in \eref{eq: beta} and \eref{eq: growth} is related to the vacancy concentration through
+%
+\begin{equation}
+\label{eq: diffusion}
+D_\text{M} = c_\text{V} D_\text{M0} \exp\left[-\frac{M}{\kB T}\right]
+\end{equation} 
+%
+
+In the future, the influence of dislocation density on the nucleation site density, $N_s$ in \eref{eq: nucleation}, through the elastic misfit energy, $\Delta G_E$, and the solute diffusion coefficient, $D$, through pipe diffusion, might be worth looking into.
+
+\section{Mass Transport}
+
+The solute and vacancy balance in \eref{eq: soluteconservation} and \eref{eq: vacancyrate} respectively local.
+In addition long-range transport can be incorporated by including diffusional fluxes
+%
+\begin{align}
+\label{eq: diffusion}
+\dot{c}_\text{V} = \nabla D_\text{V} \nabla c_\text{V} + \chi \frac{\Omega}{E_\text{V}} \sum_{\alpha = 1}^{N} \dot{\gamma}^{\alpha} \tau^{\alpha} - \frac{D_\text{V}}{L^2} c_\text{V} \\
+\dot{c}_\text{M} = \nabla D_\text{M} \nabla c_\text{M} + \frac{\dot{f}}{1-f}\left(c_\text{M} - c_\text{P}\right)
+\end{align} 
+%
+
+
+\bibliographystyle{unsrtnat}
+\bibliography{fullfield-kwn}
+\end{document}  

@@ -1,0 +1,5 @@
+*.pyc
+dist
+damask.egg-info
+.coverage
+.coverage.*
