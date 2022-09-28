@@ -7,7 +7,7 @@ module load apps/binapps/anaconda3/2019.07
 
 export PETSC_DIR=/mnt/eps01-rds/jf01-home01/shared/petsc-3.12.2
 export PETSC_ARCH=mkl-opt
-export DAMASK_ROOT=~/software/damask
+export DAMASK_ROOT=~/software/damask-kwn
 export HDF5_USE_FILE_LOCKING=FALSE
 export OMP_NUM_THREADS=1
 
