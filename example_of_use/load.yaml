@@ -1,0 +1,35 @@
+initial_conditions:
+  thermal:
+    T: 423.0
+loadstep:
+- boundary_conditions:
+    mechanical:
+      P:
+      - x
+      - x
+      - x
+      - x
+      - 0
+      - x
+      - x
+      - x
+      - 0
+      dot_F:
+      - 0.0001
+      - 0
+      - 0
+      - 0
+      - x
+      - 0
+      - 0
+      - 0
+      - x
+  discretization:
+    N: 10000
+    t: 2000
+  f_out: 100
+
+  
+solver:
+  mechanical: spectral_basic
+  thermal: spectral

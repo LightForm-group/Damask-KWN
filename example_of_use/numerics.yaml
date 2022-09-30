@@ -1,0 +1,8 @@
+grid:
+  itmin: 1
+  itmax: 40
+crystallite:
+  integrator: RKCK45
+  #integrator: AdaptiveEuler
+  subStepMin: 1.0e-6
+  #subStepMin: 1.0e-12

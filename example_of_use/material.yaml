@@ -1,0 +1,539 @@
+homogenization:
+  SX:
+    N_constituents: 1
+    mechanical:
+      type: pass
+    thermal:
+      type: pass
+material:
+- constituents:
+  - O:
+    - 0.19813654684736873
+    - -0.4003702989793671
+    - 0.38708148638970563
+    - -0.806606133991621
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.4131826988800702
+    - -0.6684243946439803
+    - 0.5135613787035137
+    - 0.34459192720543513
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.21956653913118745
+    - -0.3396582332002957
+    - 0.5011663510132476
+    - -0.765019678260156
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.2487765086598615
+    - -0.8408812909074685
+    - 0.44711671323124785
+    - 0.17639599794237146
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.5982613501642641
+    - 0.24354031846763172
+    - -0.7623416025280427
+    - -0.04008430160663768
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.8840234119417285
+    - -0.2098121912521372
+    - 0.35566698060426194
+    - -0.21904896815262337
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.19360785099048977
+    - -0.5112262204796674
+    - -0.557474532558148
+    - 0.6248086883822866
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.8024783738285163
+    - -0.5007863975128028
+    - -0.18918067730802285
+    - 0.26353769168179125
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.06974089307143408
+    - -0.7414820339366597
+    - -0.39036632793661524
+    - 0.5412529271939652
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.6453372482004296
+    - -0.016279428516117574
+    - 0.41778411233364465
+    - -0.639320930185986
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.05339199655324574
+    - -0.8779132221368511
+    - 0.19173810590026072
+    - -0.43549301699008974
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.14845800101407938
+    - 0.790331899943582
+    - 0.026732179595510813
+    - -0.5938190805628806
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.652676039221747
+    - -0.7090230892120752
+    - -0.24059099146206978
+    - -0.11582841455047382
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.29915098149645686
+    - 0.7159565631015381
+    - -0.6224013964855487
+    - -0.10262256903030062
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.5784045936176999
+    - 0.6237599186689476
+    - 0.326647567034927
+    - 0.41191389500017356
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.035524189507773814
+    - 0.5814253446865325
+    - -0.4759489735185275
+    - 0.6589045265610358
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.5969405740839905
+    - -0.17515012300463842
+    - -0.7829158934843661
+    - -0.005204724134147924
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.25222091934220187
+    - -0.48630764051069825
+    - 0.08096429552384211
+    - -0.8326669619226044
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.7239550608523735
+    - 0.07002239021743868
+    - -0.1962696731131623
+    - 0.6576200651976226
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.037004751306443685
+    - -0.4117828010207032
+    - -0.02857329192856119
+    - -0.9100819414495914
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.5450821256282936
+    - -0.25840948787853624
+    - -0.13767884164859104
+    - -0.7855918466081455
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.3769640203927766
+    - -0.6004893699285175
+    - 0.4309844970028235
+    - -0.558178293446986
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.3226602384268556
+    - -0.2679832725054384
+    - -0.527345663412802
+    - -0.738905871864145
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.7091383025313395
+    - -0.3636138207980246
+    - 0.372251047008032
+    - -0.47574889932511294
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.13426655736570425
+    - 0.6197242943449701
+    - 0.0106843685552696
+    - 0.7731753584021972
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.48352946121990564
+    - 0.5537130233620932
+    - 0.03930976951400279
+    - -0.6767982638219117
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.03807105467878948
+    - -0.11491341296947197
+    - 0.8890485645685069
+    - -0.4415180088671692
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.8831316185030793
+    - -0.2883299482840831
+    - 0.131431385459949
+    - 0.3459337743538609
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.27550076929221795
+    - 0.6041079149453742
+    - -0.47362901851088984
+    - 0.5786436779609364
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.6172208872398455
+    - -0.4111994879946045
+    - 0.048847609374279635
+    - -0.6690046849508986
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.13187192791852537
+    - -0.6362432731349185
+    - 0.7591423624287823
+    - 0.038822230534376605
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.1327265521914378
+    - 0.8984611856353305
+    - -0.3870570718167676
+    - -0.15917909224128482
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.2430253933394101
+    - -0.25652463870552433
+    - -0.9209574368306476
+    - -0.16422900923877326
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.6114289880907678
+    - 0.23910750678228682
+    - -0.644319304478046
+    - -0.39221783054775256
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.08308514261024418
+    - -0.3737631604049558
+    - -0.9064070997055582
+    - -0.17839318542167693
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.2793946250375105
+    - -0.1688567617318653
+    - -0.9221140881693255
+    - 0.20768159744481562
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.14564448165827626
+    - 0.9805057169195066
+    - 0.03526535373900439
+    - -0.12709279631953685
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.3838210546874193
+    - -0.3273231732763063
+    - -0.5165506321407242
+    - -0.6918933318438505
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.7081943192272695
+    - 0.0425258671553994
+    - -0.0720278302473051
+    - 0.7010451829281553
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.4302086181390626
+    - -0.5707308570620789
+    - 0.08500131571455084
+    - 0.6942345497041028
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.443283336798221
+    - -0.49800361191364123
+    - -0.7426453495245607
+    - -0.06300929032726343
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.5100865548817876
+    - -0.5128497382479624
+    - -0.5852730699438368
+    - -0.3664045388724634
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.2985536437428899
+    - 0.6387151414767991
+    - -0.6768261102088203
+    - -0.21169578738301306
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.2372720705819684
+    - -0.9484204545928675
+    - 0.1935527678753551
+    - 0.08208490652606543
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.13778235426655275
+    - 0.09973765801619129
+    - -0.42913087456092813
+    - 0.8870823608463784
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.33663110498160137
+    - -0.5642114050133678
+    - 0.7230718840480559
+    - -0.21333551066548284
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.7393628403206952
+    - 0.4098624342987597
+    - 0.1931596136602828
+    - 0.49804090088487646
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.3786057904184511
+    - -0.2353216574937869
+    - -0.5390219888394053
+    - 0.7146584278685929
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+- constituents:
+  - O:
+    - 0.20552648473845833
+    - -0.42560105087366334
+    - 0.1209667003596769
+    - 0.8729201950753447
+    phase: Aluminum
+    v: 1.0
+  homogenization: SX
+phase:
+  Aluminum:
+    lattice: cF
+    mechanical:
+      elastic:
+        C_11: 100000000000.0
+        C_12: 60410000000.0
+        C_44: 28340000000.0
+        type: Hooke
+      output:
+      - F
+      - P
+      - F_e
+      - F_p
+      - L_p
+      - O
+      plastic:
+        N_sl:
+        - 12
+        a_sl: 2.25
+        atol_precipitate_density: 1e-12
+        atol_solute: 1e-12
+        atol_xi: 1.0
+        atomic_volume: 1.66e-29
+        burgers_vector: 2.9e-10
+        c0_matrix:
+        - 0.02889
+        - 0.02406
+        ceq_matrix:
+        - 0.012082196019601959
+        - 0.0005296453049830318
+        ceq_precipitate:
+        - 0.27
+        - 0.38
+        dislocation_arrangement: 10
+        dot_gamma_0_sl: 0.001
+        gamma_coherent: 0.265
+        h_0_sl_sl: 589020809.2851744
+        h_sl_sl:
+        - 1
+        - 1
+        - 1.4
+        - 1.4
+        - 1.4
+        - 1.4
+        - 1.4
+        initial_dislocation_density: 100000000000000.0
+        initial_mean_radius: 9.6e-10
+        initial_volume_fraction: 0.007
+        jog_formation_energy: 4.806529901999999e-20
+        kwn_nsteps: 60
+        kwn_step0: 5
+        kwn_stepsize: 0.5
+        lattice_parameter: 4.0695e-10
+        misfit_energy: 0
+        molar_volume: 1e-05
+        n_sl: 50.0
+        output:
+        - gamma_sl
+        - phi_total
+        - phi
+        - solute_c
+        - r_avg
+        - xi_sl
+        - vacancy_c
+        - f
+        precipitate_strength_constant: 0.03535
+        saturation_dislocation_density: 100000000000000.0
+        shear_modulus: 28340000000.0
+        solute_diffusion0: 1.49e-05
+        solute_migration_energy: 2.0923e-19
+        solute_strength: 683000000.0
+        standard_deviation: 2.01322e-10
+        stoechiometry:
+        - 5
+        - 7
+        - 6
+        type: kwnpowerlaw
+        vacancy_diffusion0: 1e-05
+        vacancy_energy: 8.331e-20
+        vacancy_generation: 0.035
+        vacancy_migration_energy: 1.49e-19
+        vacancy_sink_spacing: 5e-05
+        xi_0_sl:
+        - 7800000.0
+        xi_inf_sl:
+        - 210330547.0653053
+    rho: 1.0
+    thermal:
+      C_p: 1.0
