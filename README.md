@@ -14,4 +14,4 @@ Instructions to run a simulation and input files examples are [here](https://lig
 Example of files for simulations are available in the ```example_of_use``` directory
 
 ## Post-processing
-Example of scripts for post-processing are available in the ```post_processing_tools``` directory
+Example of scripts for post-processing are available in the ```env_scripts``` directory
