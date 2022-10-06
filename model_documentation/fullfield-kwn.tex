@@ -134,8 +134,11 @@
  
 \noindent The installation instructions for this version of DAMASK are provided elsewhere:
  
-  \noindent  \url{https://lightform-group.github.io/wiki/software_and_simulation/kwn-damask}.
+  \noindent  \url{https://lightform-group.github.io/wiki/software_and_simulation/kwn-damask}.\\
 %\date{}                                           % Activate to display a given date or no date
+
+
+\noindent The purpose of the document is to describe the KWN-crystal plasticity coupled model used in the constitutive law ```\texttt{kwnpowerlaw} ```.  The program inputs corresponding to the variables mentioned in this document are shown in Section \ref{section:inputs}.
 
 \section{Kampmann-Wagner Model}
 
@@ -347,7 +350,7 @@ In addition long-range transport can be incorporated by including diffusional fl
 Currently, the equilibrium composition at the interface between matrix and precipitate is calculated at each time step for all bins of the distribution. As the equilibrium concentration at the interface does not depend on time, the code could be modified to calculate the equilibrium composition only at the beginning.
 \subsection{Improve readability}
 Readability might be improved by converting all units in the \texttt{phase\char`_mechanical\char`_plastic\char`_kwnpowerlaw.f90} source file to international unit system (for now, several variables are normed).
-\section{Model inputs}
+\section{Model inputs} \label{section:inputs}
 
 \begin{center}
 \begin{tabular}{llr}

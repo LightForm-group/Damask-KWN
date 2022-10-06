@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.11.9)  6 OCT 2022 16:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.11.9)  6 OCT 2022 17:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -773,57 +773,50 @@ Overfull \hbox (5.44032pt too wide) in paragraph at lines 137--139
 tware _ and _ simulation / kwn-[]damask$[]\OT1/cmr/m/n/10.95 . 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 137--139
+
+ []
+
 [1
 
 
 {/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 191.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 194.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 191.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 194.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 191.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 194.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 191.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 194.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 193.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 196.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 193.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 196.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 193.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 196.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 193.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 196.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 198.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 201.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 198.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 201.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 198.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 201.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 198.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 199.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 199.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 199.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 199.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 201.
 
 
 LaTeX Font Warning: Command \tiny invalid in math mode on input line 202.
@@ -838,62 +831,74 @@ LaTeX Font Warning: Command \tiny invalid in math mode on input line 202.
 LaTeX Font Warning: Command \tiny invalid in math mode on input line 202.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 202.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 205.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 205.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 205.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 205.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 205.
 
 [2]
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 228.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 231.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 228.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 231.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 242.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 245.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 242.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 245.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 248.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 251.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 252.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 255.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 252.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 255.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 252.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 255.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 284.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 287.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 284.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 287.
 
 [3] [4]
-Overfull \hbox (94.84105pt too wide) in paragraph at lines 349--350
+Overfull \hbox (94.84105pt too wide) in paragraph at lines 352--353
 \OT1/cmr/m/n/10.95 Readability might be im-proved by con-vert-ing all units in 
 the \OT1/cmtt/m/n/10.95 phase_mechanical_plastic_kwnpowerlaw.f90
  []
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 362.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 365.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 362.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 365.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 364.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 367.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 364.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 367.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 366.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 369.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 366.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 369.
 
 [5] (./fullfield-kwn.bbl [6]) [7] (./fullfield-kwn.aux)
 
@@ -903,13 +908,13 @@ Package rerunfilecheck Info: File `fullfield-kwn.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 17746 strings out of 478994
- 323365 string characters out of 5858184
- 758377 words of memory out of 5000000
- 34885 multiletter control sequences out of 15000+600000
+ 17747 strings out of 478994
+ 323381 string characters out of 5858184
+ 759412 words of memory out of 5000000
+ 34886 multiletter control sequences out of 15000+600000
  425524 words of font info for 110 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 111i,16n,116p,10655b,1137s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 111i,16n,116p,10655b,1135s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{interfacial_energy} has been referenced but does 
 not exist, replaced by a fixed one
 
@@ -941,10 +946,10 @@ ive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive
 21/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2021
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on fullfield-kwn.pdf (7 pages, 221465 bytes).
+Output written on fullfield-kwn.pdf (7 pages, 222102 bytes).
 PDF statistics:
- 320 PDF objects out of 1000 (max. 8388607)
- 292 compressed objects within 3 object streams
+ 321 PDF objects out of 1000 (max. 8388607)
+ 293 compressed objects within 3 object streams
  93 named destinations out of 1000 (max. 500000)
  97 words of extra memory for PDF output out of 10000 (max. 10000000)
 
