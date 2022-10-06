@@ -6,12 +6,17 @@
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage{graphicx}
 
+
+\usepackage{imakeidx}
+
+\makeindex
+
 \newcommand{\question}[1]{\textcolor{Red}{#1}}
 \newcommand{\answer}[1]{\textcolor{Green}{#1}}
 \newcommand{\note}[1]{\textcolor{CornflowerBlue}{#1}}
 
 % REFERENCES
-
+\usepackage[]{hyperref}
 \newcommand{\eref}[1]{Eq.~\eqref{#1}}
 \newcommand{\Eref}[1]{Equation~\eqref{#1}}
 \newcommand{\fref}[1]{Fig.~\ref{#1}}
@@ -112,14 +117,29 @@
 \newcommand{\dfpinvdt}{\totalder{\Fpinv}{\text{t}}}
 \newcommand{\dfpinvdlp}{\totalder{\Fpinv}{\Lp}}
 
-\begin{document}
 
-\title{Full-field Kampmann-Wagner Models}
+
+% MATH
+\usepackage{systeme}
+
+
+\begin{document}
+\author{Madeleine Bignon, Pratheek Shanthraj, Joseph D. Robson}
+\title{Full-field model for dynamic precipitation}
 \maketitle
 
+\noindent This is the documentation for the crystal plasticity constitutive law for DAMASK including dynamic precipitation available in:
+ 
+\noindent  \url{https://github.com/LightForm-group/Damask-KWN}.  \\
+ 
+\noindent The installation instructions for this version of DAMASK are provided elsewhere:
+ 
+  \noindent  \url{https://lightform-group.github.io/wiki/software_and_simulation/kwn-damask}.
 %\date{}                                           % Activate to display a given date or no date
 
 \section{Kampmann-Wagner Model}
+
+The KWN model used in this full field model is the one described in \cite{Bignon2022}. A ternary system is considered, with main element C and solute atoms A and B. The precipitate composition - considered as constant - is given by \hypertarget{stoichiometry} {A\textsubscript{x}B\textsubscript{y}C\textsubscript{z}}.
 
 A number density distribution of precipitates, $\phi\left(r,t\right)$, is defined. 
 The total number density of precipitates, $N$, is given by
@@ -136,11 +156,11 @@ the average radius, $R$, is given by
 R\left(t\right) = \frac{1}{N\left(t\right)}\int_{0}^{\infty} r \phi\left(r,t\right) \inc{r},
 \end{equation}
 %
-and the volume fraction, $f$, is given by
+and the volume fraction, $f_{v}$, is given by
 %
 \begin{equation}
 \label{eq: volfrac}
-f\left(t\right) =\int_{0}^{\infty} \frac{4}{3} \pi r^3 \phi\left(r,t\right) \inc{r}.
+f_{v}\left(t\right) =\int_{0}^{\infty} \frac{4}{3} \pi r^3 \phi\left(r,t\right) \inc{r}.
 \end{equation}
 %
 The conservation of precipitates is then represented by the following conservation law
@@ -151,7 +171,39 @@ The conservation of precipitates is then represented by the following conservati
 \end{equation}
 %
 where, $v\left(r,t\right)$ is the growth rate of the precipitates, and $S\left(r,t\right)$ is the source term representing the nucleation of precipitates.
-Using classical nucleation theory, the source term can be expressed as
+
+\subsection{Initial distribution}
+A pre-existing precipitate distribution is considered. The initial distribution $N(0)$ is assumed to follow a log-normal law, and is defined by its initial precipitate volume fraction \hypertarget{vf}{$f_{v}(0)$}, initial mean radius \hypertarget{r0}{$R(0)$} and standard deviation \hypertarget{sigma}{$\sigma$}\footnote{the log-normal distribution is sometimes defined by a dimensionless dispersion parameter $s$ defined as $s=\sigma/R(0)$} as \cite{Bignon2022}:
+\begin{equation} \label{eq:number_density}
+N(0)  =f_{v}(0)\frac{\int_{0}^{\infty} f(r) dr}{\int_{0}^{\infty} f(r) \frac{4}{3} \pi r^{3}dr}
+\end{equation}
+%
+where $f$ is a function defined as:
+%
+\begin{equation} \label{eq:distribution_function}
+f(r)=\frac{1}{\sqrt{2 \pi} \sigma} \exp\left[{-\frac{R(0)^{2}}{2 \sigma^{2}} \left(\ln(\frac{r}{R(0)})+ \frac{\sigma^{2}}{2R(0)^{2}}\right)^{2}}\right]
+\end{equation}
+
+
+\subsection{Precipitate growth}
+The growth rate, $v\left(r,t\right)$ in \eref{eq: conservation} is assumed to be controlled by the slowest diffuser. Assuming the slowest diffuser is A,  $v\left(r,t\right)$ is given by:
+\begin{equation} \label{eq:growth_rate}
+v\left(r,t\right)=\frac{D}{r}\cdot \frac{\overline{x}_{ \tiny \textrm{A}} - x_{ \tiny \textrm{A}}^{r}}{x_{ \tiny \textrm{A}}^{\textrm pr} -  x_{ \tiny \textrm{A}}^{r} }
+\end{equation}
+where $D$ is the diffusion coefficient, calculated as detailed later,  $\overline{x}_{ \tiny \textrm{A}}$ is the average atomic fraction of A in the matrix, \hypertarget{xpr_a}{$x_{ \tiny \textrm{A}}^{\textrm pr}$} is the concentration in A in the precipitate ($x_{ \tiny \textrm{A}}^{\textrm pr} = \frac{x}{x+y+z}$), and $x_{ \tiny \textrm{A}}^{r}$ is the concentration in A at the interface between the matrix and a precipitate of radius $r$, calculated as the solution of the following system of equations \cite{ Nicolas2003,Bignon2022}: 
+%
+
+\begin{equation}\label{eq:interface}
+ \begin{cases}
+x\cdot(x_{ \tiny \textrm{B}}^{0}-x_{ \tiny \textrm{B}}^{r}) =y\cdot( x_{ \tiny \textrm{A}}^{0}  -x_{ \tiny \textrm{A}}^{r}) \\
+\exp\left[(\frac{2 \gamma  v_{\textrm m}^{pr}}{r  RT} +\frac{\Delta G_E\cdot v_{\textrm m}^{pr}}{RT} )\cdot(x+y+z) \right] \cdot (x_{ \tiny \textrm{A}}^{\infty})^{x} \cdot (x_{ \tiny \textrm{B}}^{\infty})^{y}  =  (x_{ \tiny \textrm{A}}^{r})^{x} \cdot (x_{ \tiny \textrm{B}}^{r})^{y}    \\
+\end{cases} 
+\end{equation}
+where \hypertarget{strain_energy}{$\Delta G_E$} is the elastic strain energy,  \hypertarget{xb}{$x_{ \tiny \textrm{A}}^{0}$} and \hypertarget{xc}{$x_{ \tiny \textrm{B}}^{0}$} are the bulk concentrations of the alloy in species A and B, respectively;  \hypertarget{xaeq}{$x_{ \tiny \textrm{A}}^{\infty}$} and \hypertarget{xbeq}{$x_{ \tiny \textrm{B}}^{\infty}$} are the equilibrium concentrations in A and B, respectively; $x_{ \tiny \textrm{B}}^{r}$ - which is the second variable of the system in \eref{eq:interface} -  is the concentration at the interface between the matrix and a precipitate of radius $r$, and \hypertarget{vmol}{$v_{\textrm m}^{pr}$} is the molar volume of the precipitate. 
+
+
+\subsection{Source term}
+Using classical nucleation theory, the source term in \eref{eq: conservation} can be expressed as
 %
 \begin{equation}
 \label{eq: source}
@@ -159,35 +211,23 @@ S = \delta\left(r - r_c\right) I
 \end{equation}
 %
 where $r_c\left(t\right)$ is the critical nucleus size, and $I\left(t\right)$ is the nucleation rate.
-The critical nucleus size is given by
-%
-\begin{equation}
-\label{eq: critradius}
-r_c\left(t\right) = - \frac{2\gamma}{\Delta G_E + \Delta G_V},
-\end{equation}
-%
-and the nucleation rate is given by
+The critical nucleus size $r_c(t)$ is calculated as the radius such that:
+ \begin{equation}
+ v(r_c, t) = 0
+ \end{equation}
+ 
+ The nucleation rate is given by
 %
 \begin{equation}
 \label{eq: nucleation}
-I\left(t\right) = N_s Z \beta \exp{\left[-\frac{4\pi\gamma r_c^2}{3\kB T}\right]} \exp{\left[-\frac{\tau}{t}\right]}.
+I\left(t\right) = N_s Z \beta \exp{\left[-\frac{4\pi\gamma r_c^2}{3\kB T}\right]} 
 \end{equation}
 %
-The elastic misfit energy, $\Delta G_E$, is assumed to be constant. The chemical energy change, $\Delta G_V$, is given by
-%
+where $N_s$ is the number density of nucleation sites, calculated as 
 \begin{equation}
-\label{eq: chemenergy}
-\Delta G_V = \frac{R T}{V} c_\text{P} \ln{\frac{c_\text{M}}{c_\text{eq}}}
+N_s=\frac{\overline{x}_{ \tiny \textrm{A}}+\overline{x}_{ \tiny \textrm{B}}}{V}
 \end{equation}
-%
-where, the precipitate solute concentration, $c_\text{P}$, is assumed to be constant, $c_\text{M}\left(t\right)$ is the matrix solute concentration satisfying
-%
-\begin{equation}
-\label{eq: soluteconservation}
-c_\text{M}\left(t = 0\right) = f c_\text{P} + \left(1 - f\right)c_\text{M}\left(t\right),
-\end{equation}
-%
-and $c_\text{eq}$ is the equilibrium matrix composition.
+where \hypertarget{vat}{$V$} is the atomic volume of the matrix.
 In \eref{eq: nucleation}, the Zeldovich factor, $Z$, is given by
 %
 \begin{equation}
@@ -199,91 +239,100 @@ $\beta$ is given by
 %
 \begin{equation}
 \label{eq: beta}
-\beta = 4\pi D_\text{M} c_\text{M} \frac{r_c^2}{a^4},  
+\beta = 4\pi D (\overline{x}_{ \tiny \textrm{A}}+\overline{x}_{ \tiny \textrm{B}}) \frac{r_c^2}{a^4},  
 \end{equation}
-%
-in terms if the solute diffusion coefficient, $D_\text{M}$, and the incubation time, $\tau$, is given by
+where \hypertarget{latticeparameter}{$a$} is the lattice parameter of the product phase.
+ 
+ 
+ \subsection{Solute conservation}
+The precipitate solute concentration in element $i$ (where i=A or B), $x_{ \tiny \textrm{i}}^{\textrm pr}$ , is assumed to be constant, and the matrix solute concentration satisfies:
 %
 \begin{equation}
-\label{eq: incubation}
-\tau = \frac{1}{2 Z^2 \beta}.
+\label{eq: soluteconservation}
+{x}_{ \tiny {i}}^{0} = f_v(t) x_{ \tiny \textrm{i}}^{\textrm pr} + \left(1 - f_v(t)\right)\overline{x}_{ \tiny \textrm{i}}(t),
 \end{equation}
-%
-Finally, the growth rate, $v\left(r,t\right)$ in \eref{eq: conservation} is given by
-%
-\begin{equation}
-\label{eq: growth}
-v\left(r,t\right) = \frac{D}{r} \frac{c_\text{M} - c_\text{I}}{c_\text{P} - c_\text{I}}, \qquad c_\text{I} = c_\text{eq} \exp{\frac{2\pi\gamma}{R T r}}.
-\end{equation}
+ 
+
 %
 
-\section{Crystal Plasticity}
+%
+\section{Crystal plasticity model}
 
-A crystal plasticity constitutive model is a representation of the plastic strain rate (velocity gradient)
+A crystal plasticity constitutive model is used and the plastic strain rate is given by \cite{Roters2019a}:
 %
 \begin{equation}
 \label{eq: lp}
-\Lp = \sum_{\alpha = 1}^{N} \dot{\gamma}^{\alpha} n^{\alpha} \otimes s^{\alpha} 
+\Lp = \sum_{\alpha = 1}^{12} \dot{\gamma}^{\alpha} n^{\alpha} \otimes s^{\alpha} 
 \end{equation}
-%
-in terms of the slip rates, $\dot{\gamma}^{\alpha}$, on slip system $\alpha$ defined by slip plane normal, $n^{\alpha}$, and slip direction $s^{\alpha}$.
-The slip rates are given by a power law,
+where the indices $\alpha$ refer to the 12 FCC slip systems, defined by the slip plane normal $n^{\alpha}$ and the slip direction $s^{\alpha}$, and $\dot{\gamma}^{\alpha}$ is the slip rate.
+The slip rates are given by an empirical power law  \cite{Roters2010}:
 %
 \begin{equation}
-\label{eq: sliprate}
-\dot{\gamma}^{\alpha} = \dot{\gamma}_0^{\alpha} \left(\frac{\tau^{\alpha}}{\tau_r^{\alpha} + \tau_p^{\alpha}}\right)^{1/m}
+\label{eq:sliprate}
+\dot{\gamma}^{\alpha} = \dot{\gamma}_0\left(\frac{\tau^{\alpha}}{\tau_{*}^{\alpha} }\right)^{n}
 \end{equation}
 %
-where $\tau^{\alpha}$ is the resolved shear stress on the slip system, and the strain-hardening contribution to slip resistance, $\tau_r^{\alpha}$, is given by
-%
+where \hypertarget{gamma_0}{$\dot{\gamma}_0$} and \hypertarget{nsl}{$n$} are constants, $\tau^{\alpha}$ is the resolved shear stress on the slip system, and the slip resistance, $\tau_{*}^{\alpha}$, is given by \cite{Deschamps1998c}:
+%}
 \begin{equation}
-\label{eq: strainhardening}
-\dot{\tau}_r^{\alpha} = h_0 \sum_{\beta = 1}^{N} h_{\alpha\beta}\dot{\gamma}^{\beta}\left[1 - \frac{\tau_r^{\beta}}{\tau_{\infty}^{\beta}}\right],
+\label{eq:crss}
+\tau_{*}^{\alpha} = \tau_{s} + \sqrt{(\tau_{p})^{2}+(\tau_{d}^{\alpha})^{2}}
 \end{equation}
-%
-and the precipitate-hardening contribution to slip resistance, $\tau_p^{\alpha}$, is given by
-%
+where $\tau_{s}$, $\tau_{p}$ and $\tau_{d}^{\alpha}$ are the contributions of the atoms in solid solution, of the reinforcing precipitates, and of the dislocations, respectively. $\tau_{s}$ is given by:
 \begin{equation}
-\label{eq: precipitatehardening}
-\tau_p^{\alpha} = \frac{1}{b L^{\alpha}} \int_{0}^{\infty} \phi\left(r,t\right) F\left(r,t\right) \inc{r},
+\label{eq:tau_s}
+\tau_{s} = k_{s} \cdot (\overline{x}_{ \tiny \textrm{A}}+\overline{x}_{ \tiny \textrm{B}})^{2/3}
 \end{equation}
-%
-which accounts for precipitate shearing, with $F\left(r,t\right) = k G b r$ for $r < b/k$, and Orowan looping, with $F\left(r,t\right) = G b^2$.  for $r > b/k$. $L^{\alpha}$ is the average particle spacing on the dislocation line, and is obtained from Friedel's statistics as
-%
+where \hypertarget{ks}{$k_{s}$} is an empirical constant \cite{Deschamps1998c}. The precipitation hardening contribution $\tau_{p}$, is given by \cite{Deschamps1998c}:
 \begin{equation}
-\label{eq: friedel}
-L^{\alpha} = \left[\frac{4 \pi R^2 G b^2}{3 f b \tau_p^{\alpha}} \right]^{\frac{1}{3}},
+\label{eq:precipitatehardening}
+\tau_{p}= \mu \sqrt{\frac{3 f_{v}}{2 \pi}} \cdot  \frac{k_{p}}{ R  \cdot \sqrt{r_{t}} }\left( \int_{0}^{r_{t}}  r \cdot \phi\left(r,t\right) \inc{r} + \int_{r_{t}}^{\infty} r_{t}  \cdot \phi\left(r,t\right) \inc{r} \right)^{3/2}
 \end{equation}
 %
-where $R$ and $f$ are given by \eref{eq: avgradius} and \eref{eq: volfrac} respectively.
+where \hypertarget{mu}{$\mu$} is the shear modulus, \hypertarget{kp}{$k_{p}$} is an empirical constant, and \hypertarget{rt}{$r_{t}$} is the transition radius between shearing and Orowan looping \cite{Hull2011}. 
+In \eref{eq:crss}, $\tau_{d}^{\alpha}$ is the resistance to slip due to forest dislocations, and the hardening rate is given by \cite{Roters2010}:
+\begin{equation}
+\label{eq:strainhardening}
+\dot{\tau}_d^{\alpha} = h_0 \sum_{\beta = 1}^{N}q_{\alpha\beta}\ \dot{\gamma}^{\beta}\left[1 - \frac{\tau_d^{\beta}}{\tau_{\infty}}\right]^{m},
+\end{equation}
+where \hypertarget{h0}{$h_{0}$}, \hypertarget{tauinfinity}{$\tau_{\infty}$} and \hypertarget{m}{$m$} are hardening parameters, and \hypertarget{q}{$q_{\alpha\beta}$} is the latent hardening between the slip systems $\alpha$ and $\beta$. The initial value of ${\tau}_d^{\alpha}$ (considered as identical for all slip systems and labelled \hypertarget{tau_d_alpha}{${\tau}_d(0)$}) is a model input.
 
-Furthermore, vacancy generation due to plastic deformation is considered. The rate of generation and annihilation of vacancies is given by
+
+
+
+\section{Excess vacancy model}
+Plastic deformation produces vacancies which enhance diffusivity and accelerate precipitation kinetics. A phenomenological model \cite{Robson2020, Militzer1994, Bignon2022} is used to calculate the excess vacancy concentration as a function of temperature and deformation conditions. The rate of generation and annihilation of vacancies is given by
 %
 \begin{equation}
 \label{eq: vacancyrate}
-\dot{c}_\text{V} = \chi \frac{\Omega}{E_\text{V}} \sum_{\alpha = 1}^{N} \dot{\gamma}^{\alpha} \tau^{\alpha} - \frac{D_\text{V}}{L^2} c_\text{V},
+\dot{c}_\text{V} = \chi \frac{\hyperlink{vat}{V}}{E_\text{V}} \sum_{\alpha = 1}^{N} \dot{\gamma}^{\alpha} \tau^{\alpha}  + 0.5\cdot\frac{c_{j}V}{4b^{3}}  \sum_{\alpha = 1}^{N} \dot{\gamma}^{\alpha}   - \frac{D_\text{V}}{L^2} c_\text{V},
 \end{equation} 
-%
-where, $\chi$ is the fraction of plastic work converted into vacncies, $\Omega$ is the atomic volume, $E_\text{V}$, is the vacancy formation energy, and $D_\text{V} = D_\text{V0} \exp\left[-\frac{M_\text{V}}{\kB T}\right]$, is the vacancy diffusion coefficient in terms of the vacancy migration energy, $M_\text{V}$. 
-$L$ is the average spacing between vacancy sinks, and is given by the minimum of dislocation spacing and interstitial ($c_{int}$ assumed to be constant) spacing
+where \hypertarget{generation}{$\chi$} is the fraction of plastic work converted into vacancies;  \hypertarget{EV}{$E_\text{V}$}, is the vacancy formation energy; $D_\text{V} = \hypertarget{DV0}{D_\text{V0}} \exp\left[-\frac{\hypertarget{MV}{M_\text{V}}}{\kB T}\right]$ is the vacancy diffusion coefficient in terms of the vacancy migration energy, $M_\text{V}$; \hypertarget{b}{$b$} the burgers vector of screw dislocations; and $c_{j}$ is the dislocation jog concentration, calculated as $c_j=\exp\left[\frac{-E_j}{\kB T}\right]$, where \hypertarget{Ej}{$E_j$} is the jog formation energy.
+$L$ is the average spacing between vacancy sinks, and is given by the minimum of dislocation spacing and grain size \hyperlink{dg}{$d_{g}$}
 %
 \begin{equation}
 \label{eq: vacancysink}
-L = \min\left[\frac{G b}{\tau_r^{\alpha} - \tau_{r0}^{\alpha}}, \frac{1}{\sqrt[3]{c_{int}}}\right].
+L = \min\left[\frac{0.27 \mu b}{\max(\tau_d^{\alpha}) }, d_g\right].
 \end{equation} 
 %
 
-Currently, the solute diffusion coefficient in \eref{eq: beta} and \eref{eq: growth} is related to the vacancy concentration through
+The solute diffusion coefficient $D$ in \eref{eq: beta} and \eref{eq:growth_rate} is related to the vacancy concentration through
 %
 \begin{equation}
 \label{eq: diffusion}
-D_\text{M} = c_\text{V} D_\text{M0} \exp\left[-\frac{M}{\kB T}\right]
+D = D_{\text{th}}(1+\frac{c_v-c{_\text{eq}}}{c_{\text{eq}}})
 \end{equation} 
+
+where $c{_\text{eq}}$ is the equilibrium vacancy concentration, calculated as $c{_\text{eq}}=23\exp[-\frac{E_f}{\kB T}]$ \cite{Bignon2022}, and $D_{\text{th}}$ is the solute diffusion coefficient in the absence of any deformation, calculated as $D_{\text{th}}=\hyperlink{D0}{D_0}\exp(-E_s/\kB T)$, where \hyperlink{Es}{$E_s$} is the solute migration energy. It is assumed that $c_v(0)=c{_\text{eq}}$.
+
 %
 
+
+
+\section{To improve the model}
 In the future, the influence of dislocation density on the nucleation site density, $N_s$ in \eref{eq: nucleation}, through the elastic misfit energy, $\Delta G_E$, and the solute diffusion coefficient, $D$, through pipe diffusion, might be worth looking into.
 
-\section{Mass Transport}
+\subsection{Mass Transport}
 
 The solute and vacancy balance in \eref{eq: soluteconservation} and \eref{eq: vacancyrate} respectively local.
 In addition long-range transport can be incorporated by including diffusional fluxes
@@ -293,7 +342,83 @@ In addition long-range transport can be incorporated by including diffusional fl
 \dot{c}_\text{V} = \nabla D_\text{V} \nabla c_\text{V} + \chi \frac{\Omega}{E_\text{V}} \sum_{\alpha = 1}^{N} \dot{\gamma}^{\alpha} \tau^{\alpha} - \frac{D_\text{V}}{L^2} c_\text{V} \\
 \dot{c}_\text{M} = \nabla D_\text{M} \nabla c_\text{M} + \frac{\dot{f}}{1-f}\left(c_\text{M} - c_\text{P}\right)
 \end{align} 
-%
+
+\subsection{Decreasing calculation time}
+Currently, the equilibrium composition at the interface between matrix and precipitate is calculated at each time step for all bins of the distribution. As the equilibrium concentration at the interface does not depend on time, the code could be modified to calculate the equilibrium composition only at the beginning.
+\subsection{Improve readability}
+Convert all units everywhere to international system instead of having normed variables
+\section{Model inputs}
+
+\begin{center}
+\begin{tabular}{llr}
+\textbf{Symbol} & \textbf{Variable} & \textbf{Unit} \\
+\hline
+\hyperlink{interfacial_energy}{$\gamma$}& \texttt{gamma\char`_coherent} & \si{\joule \meter^{-2}} \\
+\hline
+ \hyperlink{vf}{$f_{v}(0)$} & \texttt{initial\char`_volume\char`_fraction} &-\\
+ \hline
+ \hyperlink{r0}{$R(0)$} &\texttt{initial\char`_mean\char`_radius}  & \si{\meter} \\
+ \hline
+\hyperlink{sigma}{$\sigma$} & \texttt{standard\char`_deviation} & \si{\meter} \\ 
+ \hline
+\hyperlink{stoichiometry}{[x,y,z]} & \texttt{stoechiometry} & - \\ 
+\hline
+[\hyperlink{xb}{$x_{ \tiny \textrm{A}}^{0}$}, \hyperlink{xc}{$x_{ \tiny \textrm{B}}^{0}$}] & \texttt{c0\char`_matrix} & at \\
+\hline
+[ \hyperlink{xaeq}{$x_{ \tiny \textrm{A}}^{\infty}$}, \hyperlink{xbeq}{$x_{ \tiny \textrm{B}}^{\infty}$}] & \texttt{ceq\char`_matrix} & at \\
+\hline
+[\hyperlink{xpr_a}{$x_{ \tiny \textrm{A}}^{\textrm pr}$},  \hyperlink{xpr_b}{$x_{ \tiny \textrm{B}}^{\textrm pr}$}]& \texttt{ceq\char`_precipitate} & at \\
+\hline
+\hyperlink{vmol}{$v_{\textrm m}^{pr}$} &  \texttt{molar\char`_volume} & \si{\meter^{3}\mole^{-1}}\\
+\hline
+\hyperlink{strain_energy}{$\Delta G_E$} & \texttt{misfit\char`_energy} & \si{\joule \meter^{-3}} \\
+\hline
+\hyperlink{vat}{$V$} & \texttt{atomic\char`_volume} & \si{\meter^{3}} \\
+\hline
+\hyperlink{latticeparameter}{$a$} & \texttt{lattice\char`_parameter} & \si{\meter} \\
+\hline
+\hyperlink{gamma_0}{$\dot{\gamma}_0$}  &  \texttt{dot\char`_gamma\char`_0\char`_sl} & \si{\meter^{-1}}\\
+\hline
+\hyperlink{nsl}{$n$} &  \texttt{n\char`_sl} & - \\
+\hline
+\hyperlink{ks}{$k_s$} & \texttt{solute\char`_strength} & - \\
+\hline
+\hyperlink{kp}{$k_p$} & \texttt{precipitate\char`_strength\char`_constant} & - \\
+\hline
+\hyperlink{rt}{$r_t$} & \texttt{transition\char`_radius} & \si{\meter} \\
+\hline
+\hyperlink{mu}{$\mu$} &  \texttt{shear\char`_modulus} & \si{\pascal} \\
+\hline
+\hyperlink{h0}{$h_{0}$} &\texttt{h\char`_0\char`_sl\char`_sl}  & \si{\pascal} \\
+\hline
+\hyperlink{tauinfinity}{$\tau_{\infty}$} &\texttt{xi\char`_inf\char`_sl}  & \si{\pascal}\\
+\hline
+\hyperlink{m}{m} & \texttt{a\char`_sl} & -\\
+\hline
+ \hyperlink{q}{$q_{\alpha\beta}$}  &\texttt{h\char`_sl\char`_sl} & - \\
+\hline
+\hyperlink{tau_d_alpha}{${\tau}_d(0)$} &\texttt{xi\char`_0\char`_sl}  & \si{\pascal}\\
+\hline
+\hyperlink{generation}{$\chi$} & \texttt{vacancy\char`_generation} & - \\
+\hline
+\hyperlink{EV}{$E_\text{V}$} & \texttt{vacancy\char`_energy}& eV \\
+\hline 
+\hyperlink{DV0}{$D_\text{V0}$} &\texttt{vacancy\char`_diffusion0} &\si{\meter^{2} \second^{-1}} \\
+\hline
+\hyperlink{MV}{$M_\text{V}$} &\texttt{vacancy\char`_migration\char`_energy} &eV\\
+\hline
+\hyperlink{Ej}{$E_j$} & \texttt{jog\char`_formation\char`_energy} & eV \\
+\hline
+\hyperlink{b}{$b$} &  \texttt{burgers\char`_vector}  &\si{\meter} \\
+\hline
+\hyperlink{dg}{$d_{g}$} & \texttt{vacancy\char`_sink\char`_spacing}& \si{\meter}\\
+\hline
+\hyperlink{Es}{$E_s$} & \texttt{solute\char`_migration\char`_energy} & eV \\
+\hline
+\hyperlink{D0}{$D_0$} &\texttt{solute\char`_diffusion0} &\si{\meter^{2} \second^{-1}} \\
+\hline
+\end{tabular}
+\end{center}
 
 
 \bibliographystyle{unsrtnat}
