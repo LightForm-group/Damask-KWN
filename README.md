@@ -5,6 +5,9 @@
 # Damask-KWN model
 This is a Damask version including a constitutive law for dynamic precipitation.
 
+## Model documentation
+The model documentation (equations used in the constitutive law and meaning of the inputs) is in the ```model_documentation``` directory
+
 ## Installation instructions
 The installation instructions are available [here](https://lightform-group.github.io/wiki/software_and_simulation/kwn-damask) 
 
