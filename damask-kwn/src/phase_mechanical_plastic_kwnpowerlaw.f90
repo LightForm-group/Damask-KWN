@@ -51,8 +51,8 @@ submodule(phase:plastic) kwnpowerlaw
       kwn_step0               ! minimum radius
     real(pReal) :: &
       lattice_param, &        ! lattice parameter in Angstrom
-      atomic_volume, &        ! atomic volume in Angstrom^3
-      molar_volume, &         ! molar volume in m^3
+      atomic_volume, &        ! atomic volume in the matrix Angstrom^3
+      molar_volume, &         ! molar volume of the precipitate in m^3/mol
       misfit_energy, &        ! normalized precipitate misfit energy in J/Angstrom/m^3
       gamma_coherent, &       ! coherent precipitate surface energy in J/m^2
       vacancy_generation, &   ! vacancy generation rate coefficient
@@ -72,7 +72,8 @@ submodule(phase:plastic) kwnpowerlaw
 	  saturation_dislocation_density, &
 	  dislocation_arrangement, &
 	  jog_formation_energy, &
-	  q_dislocation ! normalized pipe diffusion migration energy (Q/kB) in 1/k
+	  q_dislocation, & ! normalized pipe diffusion migration energy (Q/kB) in 1/k
+	  radius_transition
     real(pReal) :: &
       shear_modulus, &        ! matrix shear modulus in Pa
       burgers_vec, &          ! Burgers vector in Angstrom                                                                     
@@ -308,7 +309,7 @@ module function plastic_kwnpowerlaw_init() result(myPlasticity)
       prm%solute_strength = pl%get_asFloat('solute_strength',defaultVal=0.0_pReal)
       prm%precipitate_strength = pl%get_asFloat('precipitate_strength_constant',defaultVal=0.0_pReal)
       prm%q_dislocation = pl%get_asFloat('dislocation_migration_energy',defaultVal=1.0e-15_pReal)/kBnorm/lnorm/lnorm !no unit
-      
+      prm%radius_transition = pl%get_asFloat('transition_radius',defaultVal=3.3e-9_pReal)/lnorm !A
 
       ! when there is an initial distribution
       prm%mean_radius_initial = pl%get_asFloat('initial_mean_radius') !m
@@ -644,7 +645,6 @@ module subroutine kwnpowerlaw_dotState(Mp,ph,en)
                                )
     
     
-    ! modified version Madeleine, following Joe's paper
     c_thermal_vacancy = 23.0*exp(-prm%vacancy_energy/T) !Murty
     c_j = exp(-prm%jog_formation_energy/T)
     
@@ -662,68 +662,82 @@ module subroutine kwnpowerlaw_dotState(Mp,ph,en)
 	!print*, 'sum(dot%gamma_slip(:,en)*(stt%xi_slip(:,en)))', sum(dot%gamma_slip(:,en)*(stt%xi_slip(:,en)))
 	
 	              
-	vacancy_annihilation = prm%vacancy_diffusion0*exp(-prm%vacancy_migration_energy/T) &
-					     * ( 1.0/prm%vacancy_sink_spacing**2 &
-					       ) &  
-					     * stt%c_vacancy(en)   
+	vacancy_annihilation = 	prm%vacancy_diffusion0*exp(-prm%vacancy_migration_energy/T) &
+							/prm%dislocation_arrangement**2 &
+					     	* ( 1.0/prm%vacancy_sink_spacing**2 &
+					      	 ) &  
+					    	 * stt%c_vacancy(en)   
     dot%c_vacancy(en) = vacancy_generation - vacancy_annihilation
     
     !change Madeleine to account for multiple elements
     deltaGv = -Rnorm*T/prm%molar_volume*sum(prm%ceq_precipitate(:)*log(dst%c_matrix(:,en)/prm%ceq_matrix(:))) ! J/m^2/A
-    radius_crit = -2.0_pReal*prm%gamma_coherent &
-                / (  &
-                      prm%misfit_energy + deltaGv &
-                   ) !A
+   ! radius_crit = -2.0_pReal*prm%gamma_coherent &
+    !            / (  &
+     !                 prm%misfit_energy + deltaGv &
+      !             ) !A
                    
     diffusion_coefficient = prm%diffusion0*exp(-(prm%migration_energy)/T)*(1.0+ stt%c_vacancy(en)/c_thermal_vacancy)	&
     						 +2*( maxval(stt%xi_slip(:,en))/0.27/prm%shear_modulus/prm%burgers_vec)**2*prm%atomic_volume/prm%burgers_vec&
   	 						 *prm%diffusion0*exp(-(prm%q_dislocation )/T) !A^2/s
-   ! print*, 'T:', T-273, '°C'
-   !  print*, 'Diffusion coefficient:', T-273, '°C'
-    nucleation_site_density = sum(dst%c_matrix(:,en))/prm%atomic_volume !/A^3
-    zeldovich_factor = prm%atomic_volume*sqrt(prm%gamma_coherent/kBnorm/T) &
-                     / 2.0_pReal/PI/radius_crit/radius_crit ![]
-    beta_star = 4.0_pReal*PI*diffusion_coefficient*sum(dst%c_matrix(:,en)) &
-              * radius_crit*radius_crit/(prm%lattice_param**4.0) ![/s]
-              
-    if (stt%time(en) > 0.0_pReal) then
-      nucleation_rate = nucleation_site_density*zeldovich_factor*beta_star &
-                      * exp( &
-                             - 4.0_pReal*PI*interface_energy*radius_crit*radius_crit/3.0_pReal/kBnorm/T &
-                            )
-    nucleation_rate=0.0 ! block nucleation rate for now
-    else
-      nucleation_rate = 0.0_pReal
-    endif                        
 
     ! growth rate in # per Angstrom^3
     dot%precipitate_density(:,en) = 0.0_pReal
+    ! the critical radius will be identified during growth rate calculation as the smallest bin for which the growth rate is positive
+    radius_crit=-1.0_pReal
+    
     kwnbins_growth: do bin = 1, prm%kwn_nSteps-1
-      radiusC = prm%bins(bin  )
-      radiusL = prm%bins(bin-1)
-      radiusR = prm%bins(bin+1)
-      ! ToDo: limit max value of interface_c to ceq
-      ! change Madeleine to make the expression of the radius at the interface consistent with that of the critical radius (divide by ceq precipitate)
-      ! calculate interface concentration - numerically as it is for a multicomponent system
-      ! Calculate the equilibrium at the interface for all bins, only once (when time =0), for it is considered as constant 
-      growth_rate = diffusion_coefficient/radiusC &
-                  * (dst%c_matrix(1,en)     - dst%interface_concentration(bin,en)) &
-                  / (prm%ceq_precipitate(1) - dst%interface_concentration(bin,en)) !A/s
-      !print*,'bin:', radiusC
-      !print*,  'growth rate: ' ,growth_rate,  'A/s'
-      !print*, 'interface concentration', dst%interface_concentration(bin,en)
-      !print*, 'diffusion coefficient', diffusion_coefficient
-      if (growth_rate > 0.0_pReal) then
-        flux = stt%precipitate_density(bin  ,en)*growth_rate
-      else
-        flux = stt%precipitate_density(bin+1,en)*growth_rate
-      endif   
-      dot%precipitate_density(bin  ,en) = dot%precipitate_density(bin  ,en) - flux/(radiusC - radiusL)
-      dot%precipitate_density(bin+1,en) = dot%precipitate_density(bin+1,en) + flux/(radiusR - radiusC)
-      if (radius_crit > radiusL .and. radius_crit < radiusC) &
-        dot%precipitate_density(bin,en) = dot%precipitate_density(bin,en) &
-                                        + nucleation_rate/(radiusC - radiusL)
+      		radiusC = prm%bins(bin  )
+      		radiusL = prm%bins(bin-1)
+      		radiusR = prm%bins(bin+1)
+      		! ToDo: limit max value of interface_c to ceq
+      		! change Madeleine to make the expression of the radius at the interface consistent with that of the critical radius (divide by ceq precipitate)
+      		! calculate interface concentration - numerically as it is for a multicomponent system
+      		! ToDo: Calculate the equilibrium at the interface for all bins, only once (when time =0), for it is considered as constant 
+      		growth_rate = diffusion_coefficient/radiusC &
+                  		* (dst%c_matrix(1,en)     - dst%interface_concentration(bin,en)) &
+                  		/ (prm%ceq_precipitate(1) - dst%interface_concentration(bin,en)) !A/s
+      		! print*,'bin:', radiusC
+      		! print*,  'c(r): ' ,dst%interface_concentration(bin,en),  'c(r)'
+      		! print*, 'interface concentration', dst%interface_concentration(bin,en)
+      		! print*, 'diffusion coefficient', diffusion_coefficient
+      		! print*, 'Growth rate', growth_rate
+      		if (growth_rate > 0.0_pReal) then
+        		flux = stt%precipitate_density(bin  ,en)*growth_rate
+    			!identify the critical radius, which is the first bin for which the growth rate is positive
+      			if (radius_crit<0.0_pReal) then
+      				radius_crit = radiusC
+      				nucleation_site_density = sum(dst%c_matrix(:,en))/prm%atomic_volume !/A^3
+        			zeldovich_factor = prm%atomic_volume*sqrt(prm%gamma_coherent/kBnorm/T) &
+                     				/ 2.0_pReal/PI/radius_crit/radius_crit ![]
+        			
+        			beta_star = 4.0_pReal*PI*diffusion_coefficient*sum(dst%c_matrix(:,en)) &
+              					* radius_crit*radius_crit/(prm%lattice_param**4.0) ![/s]
+              
+
+      				nucleation_rate = nucleation_site_density*zeldovich_factor*beta_star &
+                     				* exp( &
+                            		- 4.0_pReal*PI*prm%gamma_coherent*radius_crit*radius_crit/3.0_pReal/kBnorm/T &
+                           			 )  !part/A^3/s
+
+
+                   ! print*, 'Bin critical radius:', bin  	
+      			endif
+     
+      		else
+        		flux = stt%precipitate_density(bin+1,en)*growth_rate !part/A^3/s
+      		endif   
+      			
+      		dot%precipitate_density(bin  ,en) = dot%precipitate_density(bin  ,en) - flux/(radiusC - radiusL)
+      		dot%precipitate_density(bin+1,en) = dot%precipitate_density(bin+1,en) + flux/(radiusR - radiusC)
+      
+
+      
+      		if (radius_crit > radiusL .and. radius_crit <= radiusC) &
+        		dot%precipitate_density(bin,en) = dot%precipitate_density(bin,en) &
+                                        		+ nucleation_rate/(radiusC - radiusL)
     enddo kwnbins_growth
+    
+    
 
     ! enforce boundary condition, phi(0) = 0
     dot%precipitate_density(1,en) = 0.0_pReal
@@ -793,37 +807,35 @@ module subroutine kwnpowerlaw_dependentState(ph,en)
       dst%c_matrix(:,en) = (prm%c0_matrix(:) - dst%precipitate_volume_frac(en)*prm%ceq_precipitate(:)) &
                          / (1.0_pReal - dst%precipitate_volume_frac(en))
       
-    kwnbins_c: do bin = 1, prm%kwn_nSteps-1
-      ! interface concentration calculation
-      ! calculate the interface concentration as the intersection between "solvus line" and "stoichiometric line" 
-      ! more information in Bignon et al. Acta Mat 2022 (doi.org/10.1016/j.actamat.2022.118036) and Nicolas et al. Acta Mat 2003 doi:10.1016/S1359-6454(03)00429-4
-      ! the equilibrium concentration at the interface of a precipitate of radius r is calculated here by taking into account the interfacial energy (e.g. Perez 2004, Scripta mat doi:10.1016/j.scriptamat.2004.12.026)
-      ! as well as the elastic strain energy 
-      interface_c  = dst%interface_concentration(bin,en)
-      err_current = huge(1.0_pReal)
- 	  iter = 0
-      do while (err_current > 1e-12)
-        iter = iter + 1
-        residual = ((interface_c/prm%ceq_matrix(1))**prm%stoechiometry(1)) &
-                 * ( &
-                    (prm%c0_matrix(2) + prm%stoechiometry(2)/prm%stoechiometry(1)*(interface_c - prm%c0_matrix(1)))/prm%ceq_matrix(2) &
-                   )**prm%stoechiometry(2) &
-                 - exp((2.0*prm%molar_volume*prm%gamma_coherent/Rnorm/T/radiusR+prm%misfit_energy*prm%molar_volume/Rnorm/T)*(sum(prm%stoechiometry)))
-        jacobian = (prm%stoechiometry(1)*(interface_c/prm%ceq_matrix(1))**(prm%stoechiometry(1) - 1))/prm%ceq_matrix(1) &
-                 * ( &
-                    (prm%c0_matrix(2) + prm%stoechiometry(2)/prm%stoechiometry(1)*(interface_c - prm%c0_matrix(1)))/prm%ceq_matrix(2) &
-                   )**prm%stoechiometry(2) &
-                 + ((interface_c/prm%ceq_matrix(1))**prm%stoechiometry(1)) &
-                 * (prm%stoechiometry(2)*prm%stoechiometry(2)/prm%stoechiometry(1)/prm%ceq_matrix(2)) &
-                 * ( &
-                    (prm%c0_matrix(2) + prm%stoechiometry(2)/prm%stoechiometry(1)*(interface_c - prm%c0_matrix(1)))/prm%ceq_matrix(2) &
-                   )**(prm%stoechiometry(2) - 1)
-        searchdirection = residual/jacobian
-        interface_c = interface_c - searchdirection
-        err_current = abs(searchdirection)
-      enddo
-      dst%interface_concentration(bin,en) = interface_c
+	kwnbins_c: do bin = 1, prm%kwn_nSteps-1
+      			! interface concentration calculation
+      			radiusR = prm%bins(bin  )
+      			interface_c  = dst%interface_concentration(bin,en)
+     			err_current = huge(1.0_pReal)
+ 	  			iter = 0
+      			do while (err_current > 1e-12)
+        				iter = iter + 1
+        				residual = ((interface_c/prm%ceq_matrix(1))**prm%stoechiometry(1)) &
+                 				* ( &
+                    			(prm%c0_matrix(2) + prm%stoechiometry(2)/prm%stoechiometry(1)*(interface_c - prm%c0_matrix(1)))/prm%ceq_matrix(2) &
+                   				)**prm%stoechiometry(2) &
+                 				- exp((2.0*prm%molar_volume*prm%gamma_coherent/Rnorm/T/radiusR+prm%misfit_energy*prm%molar_volume/Rnorm/T)*(sum(prm%stoechiometry)))
+        				jacobian = (prm%stoechiometry(1)*(interface_c/prm%ceq_matrix(1))**(prm%stoechiometry(1) - 1))/prm%ceq_matrix(1) &
+                 				* ( &
+                    			(prm%c0_matrix(2) + prm%stoechiometry(2)/prm%stoechiometry(1)*(interface_c - prm%c0_matrix(1)))/prm%ceq_matrix(2) &
+                   				)**prm%stoechiometry(2) &
+                 				+ ((interface_c/prm%ceq_matrix(1))**prm%stoechiometry(1)) &
+                 				* (prm%stoechiometry(2)*prm%stoechiometry(2)/prm%stoechiometry(1)/prm%ceq_matrix(2)) &
+                 				* ( &
+                    			(prm%c0_matrix(2) + prm%stoechiometry(2)/prm%stoechiometry(1)*(interface_c - prm%c0_matrix(1)))/prm%ceq_matrix(2) &
+                   				)**(prm%stoechiometry(2) - 1)
+        				searchdirection = residual/jacobian
+        				interface_c = interface_c - searchdirection
+        				err_current = abs(searchdirection)
+      			enddo
+      			dst%interface_concentration(bin,en) = interface_c
     enddo kwnbins_c
+  
   endif kwnActive
 
   end associate
@@ -861,11 +873,11 @@ module subroutine plastic_kwnpowerlaw_results(ph,group)
                                                      'twinning shear','1')
       case ('phi')
         call results_writeDataset(stt%precipitate_density,group,'precipitate_density', &
-                                  'precipitate number density','/m^3')
+                                  'precipitate number density','/A^4')
                                  
       case ('phi_total')
         call results_writeDataset(dst%total_precipitate_density,group,'total_precipitate_density', &
-                                  'total precipitate number density','/m^3')
+                                  'total precipitate number density','/A^3')
                                  ! print*,'total_precipitate_density', dst%total_precipitate_density, '/A^3'
       case ('f')
         call results_writeDataset(dst%precipitate_volume_frac,group,'precipitate_volume_frac', &
@@ -932,7 +944,7 @@ end subroutine plastic_kwnpowerlaw_results
    ! tau_kwn
   real(pReal) :: &
     mean_particle_strength, &
-    radiusL, radiusR, radius_transition
+    radiusL, radiusR
     
   integer :: i, bin
 
@@ -955,14 +967,14 @@ end subroutine plastic_kwnpowerlaw_results
       kwnbins_strength: do bin = 1, prm%kwn_nSteps
         radiusL = prm%bins(bin-1)
         radiusR = prm%bins(bin  )
-        radius_transition=33.0 !Fribourg2011 in A
-        if (radiusL < radius_transition) then ! particle shearing
+    
+        if (radiusL < prm%radius_transition) then ! particle shearing
           mean_particle_strength = mean_particle_strength  &
                                  + (radiusR**2.0_pReal - radiusL**2.0_pReal)/2.0_pReal &
                                  * stt%precipitate_density(bin,en)
         else                            ! particle looping
           mean_particle_strength = mean_particle_strength &
-                                 + radius_transition &
+                                 + prm%radius_transition &
                                  * (radiusR - radiusL) &
                                  * stt%precipitate_density(bin,en)
         endif
@@ -971,7 +983,7 @@ end subroutine plastic_kwnpowerlaw_results
       tau_kwn = prm%precipitate_strength & 
              *	(prm%shear_modulus/lnorm) &
               * (dst%precipitate_volume_frac(en)*3.0/2.0/PI)**(1.0_pReal/2.0_pReal) &
-              / dst%avg_precipitate_radius(en)/sqrt(radius_transition) &
+              / dst%avg_precipitate_radius(en)/sqrt(prm%radius_transition) &
               * mean_particle_strength**(3.0_pReal/2.0_pReal) ! Pa
               
    

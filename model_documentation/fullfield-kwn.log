@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.11.9)  6 OCT 2022 15:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.11.9)  6 OCT 2022 16:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -878,22 +878,22 @@ the \OT1/cmtt/m/n/10.95 phase_mechanical_plastic_kwnpowerlaw.f90
  []
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 366.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 362.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 362.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 364.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 364.
 
 
 LaTeX Font Warning: Command \tiny invalid in math mode on input line 366.
 
 
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 368.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 368.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 370.
-
-
-LaTeX Font Warning: Command \tiny invalid in math mode on input line 370.
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 366.
 
 [5] (./fullfield-kwn.bbl [6]) [7] (./fullfield-kwn.aux)
 
@@ -910,11 +910,11 @@ Here is how much of TeX's memory you used:
  425524 words of font info for 110 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  111i,16n,116p,10655b,1137s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{xpr_b} has been referenced but does not exist, re
-placed by a fixed one
+pdfTeX warning (dest): name{interfacial_energy} has been referenced but does 
+not exist, replaced by a fixed one
 
-pdfTeX warning (dest): name{interfacial_energy} has been referenced but does no
-t exist, replaced by a fixed one
+pdfTeX warning (dest): name{xpr_b} has been referenced but does not exist, repl
+aced by a fixed one
 
 pdfTeX warning (dest): name{Es} has been referenced but does not exist, replace
 d by a fixed one
@@ -941,7 +941,7 @@ ive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive
 21/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2021
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on fullfield-kwn.pdf (7 pages, 221499 bytes).
+Output written on fullfield-kwn.pdf (7 pages, 221465 bytes).
 PDF statistics:
  320 PDF objects out of 1000 (max. 8388607)
  292 compressed objects within 3 object streams

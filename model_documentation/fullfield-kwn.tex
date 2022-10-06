@@ -353,15 +353,11 @@ Readability might be improved by converting all units in the \texttt{phase\char`
 \begin{tabular}{llr}
 \textbf{Symbol} & \textbf{Variable} & \textbf{Unit} \\
 \hline
-\hyperlink{interfacial_energy}{$\gamma$}& \texttt{gamma\char`_coherent} & \si{\joule \meter^{-2}} \\
+\hyperlink{m}{m} & \texttt{a\char`_sl} & -\\
 \hline
- \hyperlink{vf}{$f_{v}(0)$} & \texttt{initial\char`_volume\char`_fraction} &-\\
- \hline
- \hyperlink{r0}{$R(0)$} &\texttt{initial\char`_mean\char`_radius}  & \si{\meter} \\
- \hline
-\hyperlink{sigma}{$\sigma$} & \texttt{standard\char`_deviation} & \si{\meter} \\ 
- \hline
-\hyperlink{stoichiometry}{[x,y,z]} & \texttt{stoechiometry} & - \\ 
+\hyperlink{vat}{$V$} & \texttt{atomic\char`_volume} & \si{\meter^{3}} \\
+\hline
+\hyperlink{b}{$b$} &  \texttt{burgers\char`_vector}  &\si{\meter} \\
 \hline
 [\hyperlink{xb}{$x_{ \tiny \textrm{A}}^{0}$}, \hyperlink{xc}{$x_{ \tiny \textrm{B}}^{0}$}] & \texttt{c0\char`_matrix} & at \\
 \hline
@@ -369,56 +365,67 @@ Readability might be improved by converting all units in the \texttt{phase\char`
 \hline
 [\hyperlink{xpr_a}{$x_{ \tiny \textrm{A}}^{\textrm pr}$},  \hyperlink{xpr_b}{$x_{ \tiny \textrm{B}}^{\textrm pr}$}]& \texttt{ceq\char`_precipitate} & at \\
 \hline
-\hyperlink{vmol}{$v_{\textrm m}^{pr}$} &  \texttt{molar\char`_volume} & \si{\meter^{3}\mole^{-1}}\\
-\hline
-\hyperlink{strain_energy}{$\Delta G_E$} & \texttt{misfit\char`_energy} & \si{\joule \meter^{-3}} \\
-\hline
-\hyperlink{vat}{$V$} & \texttt{atomic\char`_volume} & \si{\meter^{3}} \\
-\hline
-\hyperlink{latticeparameter}{$a$} & \texttt{lattice\char`_parameter} & \si{\meter} \\
+\hyperlink{kappa}{$\kappa$} &\texttt{dislocation\char`_arrangement} &-\\
 \hline
 \hyperlink{gamma_0}{$\dot{\gamma}_0$}  &  \texttt{dot\char`_gamma\char`_0\char`_sl} & \si{\meter^{-1}}\\
 \hline
-\hyperlink{nsl}{$n$} &  \texttt{n\char`_sl} & - \\
-\hline
-\hyperlink{ks}{$k_s$} & \texttt{solute\char`_strength} & - \\
-\hline
-\hyperlink{kp}{$k_p$} & \texttt{precipitate\char`_strength\char`_constant} & - \\
-\hline
-\hyperlink{rt}{$r_t$} & \texttt{transition\char`_radius} & \si{\meter} \\
-\hline
-\hyperlink{mu}{$\mu$} &  \texttt{shear\char`_modulus} & \si{\pascal} \\
+\hyperlink{interfacial_energy}{$\gamma$}& \texttt{gamma\char`_coherent} & \si{\joule \meter^{-2}} \\
 \hline
 \hyperlink{h0}{$h_{0}$} &\texttt{h\char`_0\char`_sl\char`_sl}  & \si{\pascal} \\
 \hline
-\hyperlink{tauinfinity}{$\tau_{\infty}$} &\texttt{xi\char`_inf\char`_sl}  & \si{\pascal}\\
-\hline
-\hyperlink{m}{m} & \texttt{a\char`_sl} & -\\
-\hline
  \hyperlink{q}{$q_{\alpha\beta}$}  &\texttt{h\char`_sl\char`_sl} & - \\
 \hline
-\hyperlink{tau_d_alpha}{${\tau}_d(0)$} &\texttt{xi\char`_0\char`_sl}  & \si{\pascal}\\
+ \hyperlink{r0}{$R(0)$} &\texttt{initial\char`_mean\char`_radius}  & \si{\meter} \\
+ \hline
+ \hyperlink{vf}{$f_{v}(0)$} & \texttt{initial\char`_volume\char`_fraction} &-\\
+ \hline
+
+ \hyperlink{Ej}{$E_j$} & \texttt{jog\char`_formation\char`_energy} & eV \\
 \hline
-\hyperlink{generation}{$\chi$} & \texttt{vacancy\char`_generation} & - \\
+\hyperlink{latticeparameter}{$a$} & \texttt{lattice\char`_parameter} & \si{\meter} \\
 \hline
-\hyperlink{EV}{$E_\text{V}$} & \texttt{vacancy\char`_energy}& eV \\
-\hline 
-\hyperlink{DV0}{$D_\text{V0}$} &\texttt{vacancy\char`_diffusion0} &\si{\meter^{2} \second^{-1}} \\
+\hyperlink{strain_energy}{$\Delta G_E$} & \texttt{misfit\char`_energy} & \si{\joule \meter^{-3}} \\
 \hline
-\hyperlink{MV}{$M_\text{V}$} &\texttt{vacancy\char`_migration\char`_energy} &eV\\
+\hyperlink{vmol}{$v_{\textrm m}^{pr}$} &  \texttt{molar\char`_volume} & \si{\meter^{3}\mole^{-1}}\\
 \hline
-\hyperlink{Ej}{$E_j$} & \texttt{jog\char`_formation\char`_energy} & eV \\
+\hyperlink{nsl}{$n$} &  \texttt{n\char`_sl} & - \\
 \hline
-\hyperlink{b}{$b$} &  \texttt{burgers\char`_vector}  &\si{\meter} \\
+\hyperlink{kp}{$k_p$} & \texttt{precipitate\char`_strength\char`_constant} & - \\
 \hline
-\hyperlink{dg}{$d_{g}$} & \texttt{vacancy\char`_sink\char`_spacing}& \si{\meter}\\
-\hline
-\hyperlink{Es}{$E_s$} & \texttt{solute\char`_migration\char`_energy} & eV \\
+\hyperlink{mu}{$\mu$} &  \texttt{shear\char`_modulus} & \si{\pascal} \\
 \hline
 \hyperlink{D0}{$D_0$} &\texttt{solute\char`_diffusion0} &\si{\meter^{2} \second^{-1}} \\
 \hline
-\hyperlink{kappa}{$\kappa$} &\texttt{dislocation\char`_arrangement} &-\\
+\hyperlink{Es}{$E_s$} & \texttt{solute\char`_migration\char`_energy} & eV \\
 \hline
+ \hyperlink{ks}{$k_s$} & \texttt{solute\char`_strength} & - \\
+\hline
+\hyperlink{sigma}{$\sigma$} & \texttt{standard\char`_deviation} & \si{\meter} \\ 
+ \hline
+\hyperlink{stoichiometry}{[x,y,z]} & \texttt{stoechiometry} & - \\ 
+\hline
+\hyperlink{rt}{$r_t$} & \texttt{transition\char`_radius} & \si{\meter} \\
+\hline
+\hyperlink{tau_d_alpha}{${\tau}_d(0)$} &\texttt{xi\char`_0\char`_sl}  & \si{\pascal}\\
+\hline
+\hyperlink{tauinfinity}{$\tau_{\infty}$} &\texttt{xi\char`_inf\char`_sl}  & \si{\pascal}\\
+\hline
+\hyperlink{DV0}{$D_\text{V0}$} &\texttt{vacancy\char`_diffusion0} &\si{\meter^{2} \second^{-1}} \\
+\hline
+\hyperlink{EV}{$E_\text{V}$} & \texttt{vacancy\char`_energy}& eV \\
+\hline 
+\hyperlink{generation}{$\chi$} & \texttt{vacancy\char`_generation} & - \\
+\hline
+
+
+\hyperlink{MV}{$M_\text{V}$} &\texttt{vacancy\char`_migration\char`_energy} &eV\\
+\hline
+
+
+\hyperlink{dg}{$d_{g}$} & \texttt{vacancy\char`_sink\char`_spacing}& \si{\meter}\\
+\hline
+
+
 \end{tabular}
 \end{center}
 
