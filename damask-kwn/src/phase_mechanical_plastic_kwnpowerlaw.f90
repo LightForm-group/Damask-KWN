@@ -761,7 +761,7 @@ module subroutine kwnpowerlaw_dependentState(ph,en)
   T = thermal_T(ph,en)
   
 !--------------------------------------------------------------------------------------------------
-! KWN model (work in progress)
+
   kwnActive: if (prm%kwn_nSteps > 0) then
   
     dst%precipitate_volume_frac(en) = 0.0_pReal
@@ -795,7 +795,10 @@ module subroutine kwnpowerlaw_dependentState(ph,en)
       
     kwnbins_c: do bin = 1, prm%kwn_nSteps-1
       ! interface concentration calculation
-      radiusR = prm%bins(bin  )
+      ! calculate the interface concentration as the intersection between "solvus line" and "stoichiometric line" 
+      ! more information in Bignon et al. Acta Mat 2022 (doi.org/10.1016/j.actamat.2022.118036) and Nicolas et al. Acta Mat 2003 doi:10.1016/S1359-6454(03)00429-4
+      ! the equilibrium concentration at the interface of a precipitate of radius r is calculated here by taking into account the interfacial energy (e.g. Perez 2004, Scripta mat doi:10.1016/j.scriptamat.2004.12.026)
+      ! as well as the elastic strain energy 
       interface_c  = dst%interface_concentration(bin,en)
       err_current = huge(1.0_pReal)
  	  iter = 0
@@ -805,7 +808,7 @@ module subroutine kwnpowerlaw_dependentState(ph,en)
                  * ( &
                     (prm%c0_matrix(2) + prm%stoechiometry(2)/prm%stoechiometry(1)*(interface_c - prm%c0_matrix(1)))/prm%ceq_matrix(2) &
                    )**prm%stoechiometry(2) &
-                 - exp(2.0*prm%molar_volume*prm%gamma_coherent/Rnorm/T/radiusR*(sum(prm%stoechiometry)))
+                 - exp((2.0*prm%molar_volume*prm%gamma_coherent/Rnorm/T/radiusR+prm%misfit_energy*prm%molar_volume/Rnorm/T)*(sum(prm%stoechiometry)))
         jacobian = (prm%stoechiometry(1)*(interface_c/prm%ceq_matrix(1))**(prm%stoechiometry(1) - 1))/prm%ceq_matrix(1) &
                  * ( &
                     (prm%c0_matrix(2) + prm%stoechiometry(2)/prm%stoechiometry(1)*(interface_c - prm%c0_matrix(1)))/prm%ceq_matrix(2) &
@@ -849,10 +852,7 @@ module subroutine plastic_kwnpowerlaw_results(ph,group)
                                                      'resistance against plastic slip','Pa')
       case('gamma_sl')
         if(prm%sum_N_sl>0) call results_writeDataset(stt%gamma_slip,group,trim(prm%output(o)), &
-                                                     'plastic shear','1')
-
-	  	
-	  
+                                                     'plastic shear','1')  
       case('xi_tw')
         if(prm%sum_N_tw>0) call results_writeDataset(stt%xi_twin,   group,trim(prm%output(o)), &
                                                      'resistance against twinning','Pa')
@@ -947,8 +947,9 @@ end subroutine plastic_kwnpowerlaw_results
   enddo
 
   tau_kwn = 0.0_pReal
+  !calculate the precipitate contribution to the critical resolved shear stress
+  !this expression comes from Deschamps & Brechet 1998 - Acta Met - doi:10.1016/S1359-6454(98)00296-1
   kwnActive: if (prm%kwn_nSteps > 0) then
-    !Madeleine : modified compared to the version of Pratheek  - contains one fitted constant here (fitted with Deschamps 2012 7068) and the transition radius
     if (dst%avg_precipitate_radius(en) > 0.0_pReal) then
       mean_particle_strength = 0.0_pReal
       kwnbins_strength: do bin = 1, prm%kwn_nSteps
@@ -967,7 +968,7 @@ end subroutine plastic_kwnpowerlaw_results
         endif
       enddo kwnbins_strength
       mean_particle_strength = mean_particle_strength/dst%total_precipitate_density(en) ! A (A^-2/(A-3))
-      tau_kwn = prm%precipitate_strength & !fitted constant -test
+      tau_kwn = prm%precipitate_strength & 
              *	(prm%shear_modulus/lnorm) &
               * (dst%precipitate_volume_frac(en)*3.0/2.0/PI)**(1.0_pReal/2.0_pReal) &
               / dst%avg_precipitate_radius(en)/sqrt(radius_transition) &
@@ -982,6 +983,7 @@ end subroutine plastic_kwnpowerlaw_results
   endif kwnActive
 
   where(dNeq0(tau_slip_pos))
+   !the contribution of solid solution elements to strengthening is added here 
     gdot_slip_pos = prm%dot_gamma_0_sl * merge(0.5_pReal,1.0_pReal, prm%nonSchmidActive) &          ! 1/2 if non-Schmid active
                   * sign(abs(tau_slip_pos/(prm%solute_strength*sum(dst%c_matrix(:,en))**(2.0_pReal/3.0_pReal)+(stt%xi_slip(:,en)**2+tau_kwn**2)**(0.5)))**prm%n_sl,  tau_slip_pos)
   else where

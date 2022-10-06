@@ -1,0 +1,96 @@
+\begin{thebibliography}{9}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bignon et~al.(2022)Bignon, Shanthraj, and Robson]{Bignon2022}
+Madeleine Bignon, Pratheek Shanthraj, and Joseph~D. Robson.
+\newblock {Modelling dynamic precipitation in pre-aged aluminium alloys under
+  warm forming conditions}.
+\newblock \emph{Acta Mater.}, 234:\penalty0 118036, aug 2022.
+\newblock ISSN 1359-6454.
+\newblock \doi{10.1016/J.ACTAMAT.2022.118036}.
+\newblock URL
+  \url{https://linkinghub.elsevier.com/retrieve/pii/S1359645422004177}.
+
+\bibitem[Nicolas and Deschamps(2003)]{Nicolas2003}
+Myriam Nicolas and Alexis Deschamps.
+\newblock {Characterisation and modelling of precipitate evolution in an
+  Al-Zn-Mg alloy during non-isothermal heat treatments}.
+\newblock \emph{Acta Mater.}, 51\penalty0 (20):\penalty0 6077--6094, 2003.
+\newblock ISSN 13596454.
+\newblock \doi{10.1016/S1359-6454(03)00429-4}.
+
+\bibitem[Roters et~al.(2019)Roters, Diehl, Shanthraj, Eisenlohr, Reuber, Wong,
+  Maiti, Ebrahimi, Hochrainer, Fabritius, Nikolov, Fri{\'{a}}k, Fujita, Grilli,
+  Janssens, Jia, Kok, Ma, Meier, Werner, Stricker, Weygand, and
+  Raabe]{Roters2019a}
+F.~Roters, M.~Diehl, P.~Shanthraj, P.~Eisenlohr, C.~Reuber, S.~L. Wong,
+  T.~Maiti, A.~Ebrahimi, T.~Hochrainer, H.~O. Fabritius, S.~Nikolov,
+  M.~Fri{\'{a}}k, N.~Fujita, N.~Grilli, K.~G.F. Janssens, N.~Jia, P.~J.J. Kok,
+  D.~Ma, F.~Meier, E.~Werner, M.~Stricker, D.~Weygand, and D.~Raabe.
+\newblock {DAMASK – The D{\"{u}}sseldorf Advanced Material Simulation Kit for
+  modeling multi-physics crystal plasticity, thermal, and damage phenomena from
+  the single crystal up to the component scale}.
+\newblock \emph{Comput. Mater. Sci.}, 158\penalty0 (April 2018):\penalty0
+  420--478, 2019.
+\newblock ISSN 09270256.
+\newblock \doi{10.1016/j.commatsci.2018.04.030}.
+
+\bibitem[Roters et~al.(2010)Roters, Eisenlohr, Hantcherli, Tjahjanto, Bieler,
+  and Raabe]{Roters2010}
+F.~Roters, P.~Eisenlohr, L.~Hantcherli, D.~D. Tjahjanto, T.~R. Bieler, and
+  D.~Raabe.
+\newblock {Overview of constitutive laws, kinematics, homogenization and
+  multiscale methods in crystal plasticity finite-element modeling: Theory,
+  experiments, applications}.
+\newblock \emph{Acta Mater.}, 58\penalty0 (4):\penalty0 1152--1211, 2010.
+\newblock ISSN 13596454.
+\newblock \doi{10.1016/j.actamat.2009.10.058}.
+\newblock URL \url{http://dx.doi.org/10.1016/j.actamat.2009.10.058}.
+
+\bibitem[Deschamps and Brechet(1998)]{Deschamps1998c}
+A.~Deschamps and Y.~Brechet.
+\newblock {Influence of predeformation and ageing of an Al-Zn-Mg Alloy-II.
+  Modeling of precipitation kinetics and yield stress}.
+\newblock \emph{Acta Mater.}, 47\penalty0 (1):\penalty0 293--305, 1998.
+\newblock ISSN 13596454.
+\newblock \doi{10.1016/S1359-6454(98)00296-1}.
+
+\bibitem[Hull and Bacon(2011)]{Hull2011}
+Derek Hull and D.~J. Bacon.
+\newblock {Introduction to Dislocations}.
+\newblock \emph{Introd. to Dislocations}, 2011.
+\newblock \doi{10.1016/C2009-0-64358-0}.
+
+\bibitem[Robson(2020)]{Robson2020}
+J.~D. Robson.
+\newblock {Deformation Enhanced Diffusion in Aluminium Alloys}.
+\newblock \emph{Metall. Mater. Trans. A Phys. Metall. Mater. Sci.}, 51\penalty0
+  (10):\penalty0 5401--5413, 2020.
+\newblock ISSN 10735623.
+\newblock \doi{10.1007/s11661-020-05960-5}.
+\newblock URL \url{https://doi.org/10.1007/s11661-020-05960-5}.
+
+\bibitem[Militzer et~al.(1994)Militzer, Sun, and Jonas]{Militzer1994}
+M.~Militzer, W.~P. Sun, and J.~J. Jonas.
+\newblock {Modelling the effect of deformation-induced vacancies on segregation
+  and precipitation}.
+\newblock \emph{Acta Metall. Mater.}, 42\penalty0 (1):\penalty0 133--141, jan
+  1994.
+\newblock ISSN 0956-7151.
+\newblock \doi{10.1016/0956-7151(94)90056-6}.
+
+\bibitem[Murty et~al.(1998)Murty, Detemple, Kanert, and Dehosson]{Murty1998}
+K.~Linga Murty, K.~Detemple, O.~Kanert, and J.~Th~M. Dehosson.
+\newblock {In-situ nuclear magnetic resonance investigation of strain,
+  temperature, and strain-rate variations of deformation-induced vacancy
+  concentration in aluminum}.
+\newblock \emph{Metall. Mater. Trans. A Phys. Metall. Mater. Sci.}, 29\penalty0
+  (1):\penalty0 153--159, 1998.
+\newblock ISSN 10735623.
+\newblock \doi{10.1007/s11661-998-0168-0}.
+
+\end{thebibliography}

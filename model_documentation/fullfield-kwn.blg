@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2021)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: fullfield-kwn.aux
+The style file: unsrtnat.bst
+Database file #1: fullfield-kwn.bib
+You've used 9 entries,
+            2481 wiz_defined-function locations,
+            638 strings with 7134 characters,
+and the built_in function-call counts, 4455 in all, are:
+= -- 374
+> -- 301
+< -- 4
++ -- 110
+- -- 92
+* -- 424
+:= -- 764
+add.period$ -- 47
+call.type$ -- 9
+change.case$ -- 18
+chr.to.int$ -- 9
+cite$ -- 9
+duplicate$ -- 170
+empty$ -- 337
+format.name$ -- 107
+if$ -- 901
+int.to.chr$ -- 1
+int.to.str$ -- 10
+missing$ -- 9
+newline$ -- 73
+num.names$ -- 27
+pop$ -- 45
+preamble$ -- 1
+purify$ -- 9
+quote$ -- 0
+skip$ -- 96
+stack$ -- 0
+substring$ -- 229
+swap$ -- 20
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 63
+warning$ -- 0
+while$ -- 33
+width$ -- 0
+write$ -- 163

@@ -312,10 +312,10 @@ $L$ is the average spacing between vacancy sinks, and is given by the minimum of
 %
 \begin{equation}
 \label{eq: vacancysink}
-L = \min\left[\frac{0.27 \mu b}{\max(\tau_d^{\alpha}) }, d_g\right].
+L = \min\left[\frac{0.27 \mu b}{\max(\tau_d^{\alpha}) \cdot \kappa^{2}}, d_g\right].
 \end{equation} 
 %
-
+where \hypertarget{kappa}{$\kappa$} is a constant between 1 and 10 related to the dislocation arrangement (\cite{Bignon2022, Robson2020}).
 The solute diffusion coefficient $D$ in \eref{eq: beta} and \eref{eq:growth_rate} is related to the vacancy concentration through
 %
 \begin{equation}
@@ -346,7 +346,7 @@ In addition long-range transport can be incorporated by including diffusional fl
 \subsection{Decreasing calculation time}
 Currently, the equilibrium composition at the interface between matrix and precipitate is calculated at each time step for all bins of the distribution. As the equilibrium concentration at the interface does not depend on time, the code could be modified to calculate the equilibrium composition only at the beginning.
 \subsection{Improve readability}
-Convert all units everywhere to international system instead of having normed variables
+Readability might be improved by converting all units in the \texttt{phase\char`_mechanical\char`_plastic\char`_kwnpowerlaw.f90} source file to international unit system (for now, several variables are normed).
 \section{Model inputs}
 
 \begin{center}
@@ -416,6 +416,8 @@ Convert all units everywhere to international system instead of having normed va
 \hyperlink{Es}{$E_s$} & \texttt{solute\char`_migration\char`_energy} & eV \\
 \hline
 \hyperlink{D0}{$D_0$} &\texttt{solute\char`_diffusion0} &\si{\meter^{2} \second^{-1}} \\
+\hline
+\hyperlink{kappa}{$\kappa$} &\texttt{dislocation\char`_arrangement} &-\\
 \hline
 \end{tabular}
 \end{center}
