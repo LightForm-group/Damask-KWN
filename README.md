@@ -17,4 +17,4 @@ Instructions to run a simulation and input files examples are [here](https://lig
 Example of files for simulations are available in the ```example_of_use``` directory
 
 ## Post-processing
-Example of scripts for post-processing are available in the ```env_scripts``` directory
+Example of scripts for post-processing are available in the ```env_scripts``` directory and the instructions to use them are [here](https://lightform-group.github.io/wiki/software_and_simulation/kwn-damask) 
